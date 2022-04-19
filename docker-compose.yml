@@ -1,0 +1,29 @@
+version: "3.7"
+
+services:
+  web:
+    build:
+      context: .
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/ipl
+    depends_on:
+      - db
+    command: >
+      sh -c "sleep 15 && python ipl/manage.py migrate && python ipl/manage.py runserver 0.0.0.0:8000"
+  db:
+    image: mysql:8
+    command: --default-authentication-plugin=mysql_native_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/db_data:/var/lib/mysql
+    restart: always
+    environment:
+      - MYSQL_PASSWORD=Ipl0g!st!cs
+      - MYSQL_ROOT_PASSWORD=Ipl0g!st!cs
+      - MYSQL_DATABASE=ipl
+      - MYSQL_ROOT_HOST=%
+volumes:
+  db_data:

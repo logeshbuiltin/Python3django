@@ -1,0 +1,569 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract %}
+{%block title %}Create Order{% endblock title %}
+{% block other_styles %}
+<style>
+   hr.rounded {
+   border-top: 3px dashed #bbb;
+   border-radius: 5px;
+   }
+   .form-control{
+   border:1px solid black;
+   }
+   .form-group{
+   margin-bottom: 25px;
+   }
+   h5{
+   margin-bottom: 15px;
+   }
+
+body{ font-size: 12px; }
+th { font-size: 12px;}
+td { font-size: 11px;}
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Order Update{% endblock modal-title %}
+{% block body_content %}
+
+
+<div class="main-content">
+   <div class="wrapper">
+      <div class="container">
+         <h4>{% block section_heading %}Create Shipping Order{% endblock section_heading %}</h4>
+         <div class="col-sm-8">
+            <div class="row">
+                    <form method="POST" name="delete-form" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 has-feedback">
+                              <input type="hidden" id="modify-paid-amount-order" name="modify-paid-amount-order" value="">
+                              <input type="hidden" id="modify-paid-amount-value" name="modify-paid-amount-value" value="">
+                            </div>
+                        </div>
+                    </form>
+               <form method="POST" name="order-form" action="/landingpage">
+                  {% csrf_token %}
+                  {% if order_posted %}
+                     {% if order_saved %}
+                        <h3 class="text-success">Order Saved Successfully</h3>
+                     {% else %}
+                        <h3 class="text-danger">Order not Saved, Something Went Wrong</h3>
+                     {% endif %}
+                  {% endif %}
+            {% if paid_amount_modified %}
+                <div class="alert alert-success">Paid Amount Updated successfully</div>
+            {% endif %}
+            {% if paid_amount_invalid %}
+                <div class="alert alert-danger">Paid Amount not updated! Please Enter a Valid Amount</div>
+            {% endif %}
+                  <div class="form-group row">
+                     <label for="{{form.billing_date.id_for_label}}" class="col-sm-6 col-form-label">Billing Date
+                     :</label>
+                     <div class='col-sm-6'>
+                        <input name="billing_date" type="date" id="billing_date" required>
+                        <div class="help-block error">
+                           <span for="{{ form.billing_date.html_name }}">{{ form.billing_date.errors.as_text | cut:"* " }}</span>
+                        </div>
+                     </div>
+                  </div>
+                  <hr class="rounded">
+                  <h5><u>Consignee and Consignor Details</u></h5>
+                  <div class="row">
+                     <div class="col-6">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.consignor_place.id_for_label}}" class="col-sm-6 col-form-label">From:</label>
+                           <div class="col-sm-6 has-feedback">
+                              <select name="{{form.consignor_place.name}}" class="form-control">
+                                 <option value="{{form.consignor_place.value}}">{{form.consignor_place.value}}</option>
+                              </select>
+                              <div class="help-block error">
+                                 <span for="{{ form.consignor_place.html_name }}">{{ form.consignor_place.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.consignor.id_for_label}}" class="col-sm-6 col-form-label">Pick a Consignor
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              <select name="consignor" class="form-control" onchange="$('#id_consignor_gst').val($('select[name=consignor] option:selected').next('.consignor-gst').val())">
+                                 <option value="" selected>---------</option>
+                                 {% for consignor in consignors %}
+                                 <option value="{{consignor.id}}">{{consignor.name}}</option>
+                                 <option class="consignor-gst" value="{{consignor.gstin}}">{{consignor.gstin}}</option>
+                                 {% endfor %}
+                              </select>
+                              <div class="help-block error">
+                                 <span for="consignor"></span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.consignor_gst.id_for_label}}" class="col-sm-6 col-form-label">Consignor GST
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.consignor_gst}}
+                              <div class="help-block error">
+                                 <span for="{{ form.consignor_gst.html_name }}">{{ form.consignor_gst.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group row">
+                           <label for="{{form.consignee_place.id_for_label}}" class="col-sm-6 col-form-label">To:</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.consignee_place}}
+                              <div class="help-block error">
+                                 <span for="{{ form.consignee_place.html_name }}">{{ form.consignee_place.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.consignee.id_for_label}}" class="col-sm-6 col-form-label">Pick a Consignee
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              <select name="consignee" class="form-control" onchange="$('#id_consignee_gst').val($('select[name=consignee] option:selected').next('.consignee-gst').val())">
+                                 <option value="" selected>---------</option>
+                                 {% for consignee in consignees %}
+                                 <option value="{{consignee.id}}">{{consignee.name}}</option>
+                                 <option class="consignee-gst" value="{{consignee.gstin}}">{{consignor.gstin}}</option>
+                                 {% endfor %}
+                              </select>
+                              <div class="help-block error">
+                                 <span for="consignee"></span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.consignee_gst.id_for_label}}" class="col-sm-6 col-form-label">Consignee GST
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.consignee_gst}}
+                              <div class="help-block error">
+                                 <span for="{{ form.consignee_gst.html_name }}">{{ form.consignee_gst.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!--right side -->
+                  </div>
+                  <hr class="rounded">
+                  <h5><u>Package Info</u></h5>
+                  <div class="row">
+                     <div class="col-6">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.no_of_packages.id_for_label}}" class="col-sm-6 col-form-label">No.of.Packages
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              <input type="number" step="1" min="1" max="10000" value="1" name="no_of_packages"
+                                 class="form-control quantity-field border-0 text-center w-50" id="package-count" required>
+                              <div class="help-block error">
+                                 <span for="{{ form.no_of_packages.html_name }}">{{ form.no_of_packages.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.package_description.id_for_label}}" class="col-sm-6 col-form-label">Package
+                           Description
+                           :</label>
+                           <textarea name="package_description" id="package-description" cols="50" rows="1"
+                              required></textarea>
+                           <!--                    {{form.package_description}}-->
+                           <div class="help-block error">
+                              <span for="{{ form.package_description.html_name }}">{{ form.package_description.errors.as_text | cut:"* " }}</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group row">
+                           <label for="{{form.package_value.id_for_label}}" class="col-sm-6 col-form-label">Package Value
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.package_value}}
+                              <div class="help-block error">
+                                 <span for="{{ form.package_value.html_name }}">{{ form.package_value.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!--right side -->
+                  </div>
+                  <hr class="rounded">
+                  <h5><u>Other Details</u></h5>
+                  <div class="row">
+                     <div class="col-6">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.actual_weight.id_for_label}}" class="col-sm-6 col-form-label">Actual Weight
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.actual_weight}}
+                              <div class="help-block error">
+                                 <span for="{{ form.actual_weight.html_name }}">{{ form.actual_weight.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.charged_weight.id_for_label}}" class="col-sm-6 col-form-label">Charged Weight
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.charged_weight}}
+                              <div class="help-block error">
+                                 <span for="{{ form.charged_weight.html_name }}">{{ form.charged_weight.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.amount_per_kg.id_for_label}}" class="col-sm-6 col-form-label">Amount per KG
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.amount_per_kg}}
+                              <div class="help-block error">
+                                 <span for="{{ form.amount_per_kg.html_name }}">{{ form.amount_per_kg.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group row">
+                           <label for="{{form.invoice_no.id_for_label}}" class="col-sm-6 col-form-label">Invoice Number
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.invoice_no}}
+                              <div class="help-block error">
+                                 <span for="{{ form.invoice_no.html_name }}">{{ form.invoice_no.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.invoice_date.id_for_label}}" class="col-sm-6 col-form-label">Invoice Date
+                           :</label>
+                           <div class='col-sm-6'>
+                              <input name="invoice_date" type="date" id="invoice_date" required>
+                              <div class="help-block error">
+                                 <span for="{{ form.invoice_date.html_name }}">{{ form.invoice_date.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.gs_tax_payable.id_for_label}}" class="col-sm-6 col-form-label">GS Tax Payable
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.gs_tax_payable}}
+                              <div class="help-block error">
+                                 <span for="{{ form.gs_tax_payable.html_name }}">{{ form.gs_tax_payable.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!--right side -->
+                  </div>
+                  <hr class="rounded">/
+                  <h5><u>Charges</u></h5>
+                  <div class="row">
+                     <div class="col-6">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.freight_charges.id_for_label}}" class="col-sm-6 col-form-label">Freight
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.freight_charges}}
+                              <div class="help-block error">
+                                 <span for="{{ form.freight_charges.html_name }}">{{ form.freight_charges.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.lr_charges.id_for_label}}" class="col-sm-6 col-form-label">LR
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.lr_charges}}
+                              <div class="help-block error">
+                                 <span for="{{ form.lr_charges.html_name }}">{{ form.lr_charges.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.hamali_charges.id_for_label}}" class="col-sm-6 col-form-label">Hamali
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.hamali_charges}}
+                              <div class="help-block error">
+                                 <span for="{{ form.hamali_charges.html_name }}">{{ form.hamali_charges.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.total_charges.id_for_label}}" class="col-sm-6 col-form-label">Grand Total
+                           :</label>
+                           <div class='col-sm-6'>
+                              {{form.total_charges}}
+                              <div class="help-block error">
+                                 <span for="{{ form.total_charges.html_name }}">{{ form.total_charges.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-6">
+                        <div class="form-group row">
+                           <label for="{{form.door_collection.id_for_label}}" class="col-sm-6 col-form-label">Door Collection
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.door_collection}}
+                              <div class="help-block error">
+                                 <span for="{{ form.door_collection.html_name }}">{{ form.door_collection.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.door_delivery.id_for_label}}" class="col-sm-6 col-form-label">Door Delivery
+                           :</label>
+                           <div class='col-sm-6'>
+                              {{form.door_delivery}}
+                              <div class="help-block error">
+                                 <span for="{{ form.door_delivery.html_name }}">{{ form.door_delivery.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.other_charges.id_for_label}}" class="col-sm-6 col-form-label">Other charges
+                           :</label>
+                           <div class='col-sm-6'>
+                              {{form.other_charges}}
+                              <div class="help-block error">
+                                 <span for="{{ form.other_charges.html_name }}">{{ form.other_charges.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.payment_status.id_for_label}}" class="col-sm-6 col-form-label">Payment Status
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.payment_status}}
+                              <div class="help-block error">
+                                 <span for="{{ form.payment_status.html_name }}">{{ form.payment_status.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row" id="paid-amount-div">
+                           <label for="{{form.paid_amount.id_for_label}}" class="col-sm-6 col-form-label">Paid Amount
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.paid_amount}}
+                              <div class="help-block error">
+                                 <span for="{{ form.paid_amount.html_name }}">{{ form.paid_amount.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <!--right side -->
+                  </div>
+                  <hr class="rounded">
+
+                  <div class="form-group">
+                     <div class="aab controls col-md-4 "></div>
+                     <div class="controls col-md-4 ">
+                        <button type="button" class="btn btn-primary" onclick="validateAndShowModal()">
+  Create Order
+</button>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+                  <hr class="rounded">
+      <div class="row">
+         <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <h5>Order List:</h5>
+            <div class="container mt-100">
+               <div class="row">
+                  <div class="col-md-14">
+                     <div class="card">
+                        <div class="card-header">
+                           <table width="40%" class="table table-bordered table-sm stable-striped" id="ordersTable" >
+                              <thead>
+                              <tr>
+                                 <th>ID</th>
+                                    <th>Billing Date</th>
+                                    <th>Consignor</th>
+                                    <th>Consignee</th>
+                                    <th>From</th>
+                                    <th>To</th>
+
+                                    <th>Grand Total</th>
+                                    <th>Payment Status</th>
+                                    <th>Paid Amount</th>
+                                    <th>Pending Amount</th>
+                                    <th>Order Copy</th>
+                                    <th>Loading Challan</th>
+                                    <th>Bill</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                                 {% for order in orders%}
+                                 <tr>
+                                    <td>{{order.id}}</td>
+                                    <td>{{order.billing_date}}</td>
+                                    <td>{{order.consignor.name}}</td>
+                                    <td>{{order.consignee.name}}</td>
+                                    <td>{{order.consignor_place}}</td>
+                                    <td>{{order.consignee_place}}</td>
+                                    <td>{{order.total_charges}}</td>
+                                    {% if order.payment_status == "to_pay" %}
+                                        <td>TO PAY</td>
+                                    {% elif order.payment_status == "tbb" %}
+                                        <td>TO BE BILLED</td>
+                                    {% elif order.payment_status == "paid" %}
+                                        <td>PAID</td>
+                                    {% endif %}
+                                    {% if order.payment_status == "tbb" %}
+                                    <td class="td-paid-amount" onclick="updatePaidAmount($(this), {{order.id}} )">{{order.paid_amount}}</td>
+                                    {% else %}
+                                    <td>{{order.paid_amount}}</td>
+                                    {% endif %}
+                                    <td>{% if order.payment_status == "tbb" %}{{order.total_charges|do_subtract:order.paid_amount}}{% endif %}</td>
+                                    <td><a href="documents/orders/{{order.id}}.pdf" target="_blank">Click Here</a></td>
+
+                                    <td>{% if order.loading_challan != None %}<a href="documents/lc/{{order.loading_challan.lc_no}}_lc.pdf" target="_blank">Click Here</a>{%endif%}</td>
+                                    <td>{% if order.bill != None %}<a href="documents/bill/{{order.bill.id}}_bill.pdf" target="_blank">Click Here</a>{%endif%}</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+                           </table>
+                           <div class="form-group" >
+                              <div class="controls col-md-8 ">
+                                 <button id="modify-paid-amount-button" type="button" class="btn btn-primary td-paid-amount">
+                                 Modify Payment
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+   $('.consignor-gst').hide();
+   $('.consignee-gst').hide();
+   $('#id_consignee_place').append(`<option value="" selected>---------</option>`);
+   $('#id_consignor_gst').attr("readonly", "readonly");
+   $('#id_consignee_gst').attr("readonly", "readonly");
+   $('#paid-amount-div').hide();
+   $('input').addClass("form-control");
+   $('select[name=payment_status]').addClass("form-control");
+   $('select[name=gs_tax_payable]').addClass("form-control");
+   $('select[name=consignee_place]').addClass("form-control");
+   $('input[type=date]').attr("required");
+   $('#package-count').on('change' ,function(){
+       $('#package-description').attr("rows", $('#package-count').val());
+   });
+   $('#id_total_charges').attr("readonly", "readonly");
+   $('#id_freight_charges').attr("readonly", "readonly");
+
+   $('.charges').on('input', function(){
+       var totalCharges =0;
+       $('.charges').each(function(i, obj) {
+           totalCharges += Number(obj.value);
+       });
+       $('.total-charges').val(totalCharges.toFixed(2));
+   });
+
+   function showHidePaidAmount(obj){
+       if(obj.val() === "tbb"){
+           $('#paid-amount-div').show();
+       }
+       else{
+           $('#paid-amount-div').hide();
+           $('#id_paid_amount').val(0);
+       }
+   }
+
+   showHidePaidAmount($('#id_payment_status'));
+
+   $('#id_payment_status').on('change' ,function(){
+       showHidePaidAmount($(this));
+   });
+
+   $(".freight-calculation").on("input", function(){
+      $("#id_freight_charges").val(($("#id_charged_weight").val() * $("#id_amount_per_kg").val()).toFixed(2));
+      $('.charges').trigger("input");
+   });
+
+   $(document).ready(function() {
+     $("#ordersTable").DataTable( {
+        "order": [[ 0, "desc" ]]
+     });
+     $('.dataTables_length').addClass('bs-select');
+
+   });
+
+$(document).mouseup(function(e){
+   if (!(e.target.className.includes("td-paid-amount"))){
+      $("#modify-paid-amount-button").hide();
+       clicked_obj.html(clicked_amount);
+       clicked_obj = null;
+       clicked_amount = null;
+   }
+   else{
+      $("#modify-paid-amount-button").show();
+   }
+});
+   $("#modify-paid-amount-button").hide();
+    function updateInput(value){
+      $("#modify-paid-amount-value").attr("value",value);
+    }
+   var clicked_obj = null;
+   var clicked_amount = null;
+    function updatePaidAmount(obj, orderId){
+        if(clicked_obj === null){
+            if (!(obj.html().includes("<input"))){
+                clicked_obj = obj;
+                clicked_amount = obj.html();
+                obj.html("<input type='number' class='td-paid-amount' id='update-paid-amount' onchange='updateInput(this.value)' value="+obj.html()+">");
+                $("#modify-paid-amount-value").attr("value",clicked_amount);
+                $("#modify-paid-amount-order").attr("value", orderId);
+                $("#modify-paid-amount-button").show();
+            }
+        }
+        else{
+            if(obj.html().includes("<input")){
+                return;
+            }
+            else{
+                clicked_obj.html(clicked_amount);
+                clicked_obj = null;
+                clicked_amount = null;
+                $("#modify-paid-amount-button").hide();
+            }
+        }
+    }
+    $("#delete-form-submit").hide();
+    $("#form-submit").show();
+    function toggleSubmitButtons(){
+        if($("#delete-form-submit").is(":visible")){
+            $("#delete-form-submit").hide();
+            $("#form-submit").show();
+        }
+        else{
+            $("#delete-form-submit").show();
+            $("#form-submit").hide();
+        }
+    }
+
+$('#modify-paid-amount-button').click( function () {
+   toggleSubmitButtons();
+   $('#popupModal').modal('show');
+})
+
+</script>
+{% endblock other_scripts %}

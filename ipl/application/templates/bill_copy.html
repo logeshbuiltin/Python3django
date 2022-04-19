@@ -1,0 +1,357 @@
+{% load static %}
+<!DOCTYPE html>
+<head>
+<style type="text/css">
+#download-section {
+    width: 794px;
+    max-height: 1122px;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
+    color: #000000;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+	page-break-before:always;
+	clear: all;
+}
+
+@font-face {
+    font-family: 'peignotbold';
+    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
+         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+table td {
+    word-break: break-word;
+}
+table, th, td {
+    border-collapse: collapse;
+}
+.table-bordered {
+    border: 1px solid #000000;
+}
+.table-bordered th, .table-bordered td {
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+.table-bordered tbody tr:first-child th, .table-bordered tbody tr:first-child td {
+    border-top: none;
+}
+.table-bordered tbody tr th:last-child, .table-bordered tbody tr td:last-child {
+    border-right: none;
+}
+.table-bordered th {
+    color: #cf2b20;
+}
+.table-pad th, .table-pad td {
+    padding: 5px 10px;
+}
+.t-b-0 td {
+    border: 0 !important;
+}
+.t-p-0 td {
+    padding: 0;
+}
+.t-py-0 td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.bt-0 td {
+    border-top: 0;
+}
+.bt-1 {
+    border-top: 1px solid #000000 !important;
+}
+.bb-1 th {
+    border-bottom: 1px solid #000000 !important;
+}
+.br-0 {
+    border-right: 0 !important;
+}
+.bb-0 {
+    border-bottom: 0 !important;
+}
+.p-0 {
+    padding: 0 !important;
+}
+.p-5 {
+    padding: 5px;
+}
+.p-10 {
+    padding: 10px;
+}
+.pt-5 {
+    padding-top: 5px;
+}
+.pt-15 {
+    padding-top: 15px;
+}
+.pl-10 {
+    padding-left: 10px;
+}
+.px-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.px-10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.px-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.py-10 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.f-15 {
+    font-size: 15px;
+    line-height: 18px;
+}
+.w-50 span {
+    width: 48%;
+    display: inline-block;
+    text-align: left;
+}
+.text-red {
+    color: #cf2b20;
+}
+.text-right {
+    text-align: right;
+}
+.text-line {
+    text-decoration: underline;
+}
+.d-block {
+    display: block;
+}
+.border-box {
+    background-color: #dddae1;
+    padding: 5px 10px;
+    border: 1px solid #333266;
+    border-radius: 8px;
+}
+.heading{
+    font-size:26px;
+    color:red;
+	font-family: peignotbold;
+}
+.sub-heading{
+    font-size:12px;
+}
+</style>
+<script src="/js/jquery.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
+</head>
+<html>
+<body>
+<div id="download-section">
+    <table border="0" cellspacing="0" cellpadding="0" class="table-bordered table-pad" style="width:100%;">
+        <tr>
+            <td valign="top" class="py-10"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0">
+                <tr>
+                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}" width="100" alt="Image"></td>
+                    <td class="px-0"><table border="0" cellspacing="0" cellpadding="0" style="width: 100%;">
+                        <tr>
+                            <td align="center">
+                                <div class="heading">Indore Professional Logistics <span style="color:blue">Royal</span></div><br>
+                                <div><strong><u>Loading Transporters For</u></strong><br> Telangana, Madhya Pradesh, Maharastra, Chhatishghar<br>
+                                    No.:313/1,3rd Shriram Nagar,FCI Main Road,Gandhimaanagar,Peelamedu,Coimbatore-641004<br>
+                                        <strong>PHONE</strong>: 9443353836,7339000885,99949807771,773,774 <strong>EMAIL ID :</strong> iplroyal2017@gmail.com
+                                        </div>
+                            </td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td valign="top">
+                        <div>To :</div>
+                        <div class="pt-5" style="padding-left:50px;">
+                            <strong>
+{{bill.consignor.name}} - {{bill.consignor.address}}
+                            </strong>
+                        </div>
+
+                    </td>
+                    <td valign="top" class="p-0" width="220"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td align="center" class="text-red"><strong class="f-15">BILL</strong></td>
+                        </tr>
+                        <tr>
+                            <td class="bt-1">
+                                <strong>
+                                    NO: {{bill.id}}<br>
+                                    DATE: {{bill.created_dtm|date:"Y-m-d"}}
+                                </strong>
+                            </td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="bt-0">
+                <thead>
+                    <tr class="bb-1">
+                        <th>S.NO</th>
+                        <th>G.R.NO</th>
+                        <th>DATE</th>
+                        <th>NO.OF.<br>PKGS</th>
+                        <th>WEIGHT<br>Kgs</th>
+                        <th align="center" style="width: 20%;">DESTINATION</th>
+                        <th align="center" style="width: 10%;">RATE<br>Per Kgs</th>
+                        <th valign="top" colspan="2" class="p-0" style="width: 20%;"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td>
+                                    <div>FREIGHT</div>
+                                    <div class="w-50">
+                                        <span style="text-align:center;">RS.</span>
+                                        <span style="text-align:center;">P.</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table></th>
+                    </tr>
+                </thead>
+                <tbody  style="height: 500px;vertical-align: top;">
+                {% for order in result_set %}
+                    <tr>
+                        <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
+                        <td style="vertical-align: top;" align="center">{{order.id}}</td>
+                        <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
+                        <td style="vertical-align: top;" align="center">{{order.no_of_packages}}</td>
+                        <td style="vertical-align: top;" align="center">{{order.charged_weight}}</td>
+                        <td style="vertical-align: top;" align="center">
+                            <strong class="f-15 text-red">{{order.consignee_place|title}}</strong>
+                        </td>
+
+                        <td style="vertical-align: top;" align="center">{{order.amount_per_kg }}</td>
+                            {%if order.freight_charges%}
+                                {% for value in order.freight_charges|decimal_split %}
+                                    <td style="vertical-align: top;" align="center">{{value}}</td>
+                                {%endfor%}
+                            {%else%}
+                                    <td style="vertical-align: top;" align="center">----</td>
+                                    <td style="vertical-align: top;" align="center">----</td>
+
+                            {%endif%}
+                    </tr>
+                {% endfor %}
+
+                    <tr style="height: 20px;vertical-align: top;">
+                        <td colspan="5" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="150" class="br-0 text-line">
+                                    <strong>Amount in Words:</strong>
+                                </td>
+                                <td>
+                                    <strong>{{total_amount_in_words}}</strong>
+                                </td>
+                            </tr>
+                        </table></td>
+                        <td align="right" colspan="2" class="bt-1">
+                            <strong>Grand Total Rs: </strong>
+                        </td>
+                        {% for value in total_amount|decimal_split %}
+                        <td align="center" class="bt-1">
+                            <strong>{{value}}</strong>
+                        </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table></td>
+        </tr>
+        <tr>
+            <td valign="top" class="p-0">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td valign="top" width="40%" class="p-0">
+                        <strong>&nbsp&nbsp&nbspGS Tax payable by Consignor</strong>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td valign="bottom" height="90">
+                                    With Acknowledgement Enclosed<br>
+                                    Our PAN NO: <strong class="text-red">GJGPS5589</strong><br>
+                                    <strong class="text-red">GSTIN: 33GJGPS5589P1Z2</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td valign="bottom" align="center" height="90">
+                                Authorised Signatory
+                            </td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table></td>
+        </tr>
+    </table>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script>
+$(document).ready(function() {
+<!--     $("html").css("zoom", "1.1");-->
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+
+    let page = $("#download-section");
+
+    async function printPdf() {
+      const pdf = html2PDF(page, {
+            jsPDF: {
+                format: "a4",
+                orientation: "p"
+            },
+            image: {type: 'jpeg', quality: 1},
+            output: {{bill.id}}+'_bill.pdf'
+          });
+      return pdf;
+    }
+
+
+    function saveFile(pdf){
+        $.ajax({
+            type: "POST",
+            url: '/downloads?download_type=bill',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'id': {{bill.id}},
+                'pdf_data': btoa(pdf.output())
+            }
+        }).done(function (result) {
+            window.open('/landingpage', "_self");
+        });
+    }
+    printPdf().then(pdf=>saveFile(pdf));
+
+});
+</script>
+</body>
+</html>

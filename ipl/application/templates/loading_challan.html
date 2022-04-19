@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract %}
+{%block title %}Loading Challan{% endblock title %}
+{% block other_styles %}
+<style>
+    hr.rounded {
+      border-top: 3px dashed #bbb;
+      border-radius: 5px;
+    }
+    .form-control{
+        border:1px solid black;
+    }
+    .form-group{
+        margin-bottom: 25px;
+    }
+    h5{
+        margin-bottom: 15px;
+    }
+
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Challan Generation{% endblock modal-title %}
+{% block body_content %}
+<div class="main-content">
+     <div class="wrapper">
+        <div class="container">
+             <h4 class="mb-4 ">Loading Challan</h4>
+            <div class="col-sm-12">
+                <div class="row">
+                    {% if result_set|length == 0 and r_method == "POST" %}
+                        <h3 class="text-danger">No Orders Found for the given criteria</h3>
+                    {% endif %}
+        <form method="POST" name="order-form" action="">
+            {% csrf_token %}
+                              <input type="hidden" id="order-ids" name="order_list"  value="">
+
+        <div class="form-group row">
+            <label for="{{form.billing_date.id_for_label}}" class="col-sm-6 col-form-label">Billing Date
+                :</label>
+            <div class='col-sm-6'>
+                {{form.billing_date}}
+                <div class="help-block error">
+                    <span for="{{ form.billing_date.html_name }}">{{ form.billing_date.errors.as_text | cut:"* " }}</span>
+                </div>
+            </div>
+        </div>
+        <hr class="rounded">
+        <div class="row">
+            <div class="col-6"><!--left side -->
+                <div class="form-group row">
+                    <label for="{{form.place_of_receipt.id_for_label}}" class="col-sm-6 col-form-label">From:</label>
+                    <div class="col-sm-6 has-feedback">
+                        <select name="{{form.place_of_receipt.name}}" class="form-control">
+                            <option value="{{form.place_of_receipt.value}}">{{form.place_of_receipt.value}}</option>
+                        </select>
+                        <div class="help-block error">
+                            <span for="{{ form.place_of_receipt.html_name }}">{{ form.place_of_receipt.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.driver.id_for_label}}" class="col-sm-6 col-form-label">Select Driver
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        <select id="driver-details" name="driver" class="form-control"
+                                onchange="$('#driver_mobile').val($('select[name=driver] option:selected').next('.driver-contact').val())" required>
+                            <option value="" selected>---------</option>
+                             {% for driver in driver_list %}
+                            <option value="{{driver.id}}">{{driver.name}}</option>
+                            <option class="driver-contact" value="{{driver.contact_number}}">{{driver.name}}</option>
+                             {% endfor %}
+                        </select>
+                        <div class="help-block error">
+                            <span for="driver"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.vehicle_no.id_for_label}}" class="col-sm-6 col-form-label">Vehicle No
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        <select id="vehicle-details" name="vehicle_no" class="form-control" required>
+                            <option value="" selected>---------</option>
+                             {% for truck in truck_list %}
+                                <option value="{{truck.id}}">{{truck.truck_number}}</option>
+                             {% endfor %}
+                        </select>
+                        <div class="help-block error">
+                            <span for="vehicle_no"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.supplier.id_for_label}}" class="col-sm-6 col-form-label">Supplier
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.supplier}}
+                        <div class="help-block error">
+                            <span for="{{ form.supplier.html_name }}">{{ form.supplier.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="{{form.advance_amount.id_for_label}}" class="col-sm-6 col-form-label">Advance Amount
+                        given:</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.advance_amount}}
+                        <div class="help-block error">
+                            <span for="{{ form.advance_amount.html_name }}">{{ form.advance_amount.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-6">
+                <div class="form-group row">
+                    <label for="{{form.place_of_delivery.id_for_label}}" class="col-sm-6 col-form-label">To:</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.place_of_delivery}}
+                        <div class="help-block error">
+                            <span for="{{ form.place_of_delivery.html_name }}">{{ form.place_of_delivery.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.driver_mobile.id_for_label}}" class="col-sm-6 col-form-label">Driver Mobile No
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        <input name="driver_mobile" type="text"
+                               id="driver_mobile" required disabled>
+                        <div class="help-block error">
+                            <span for="truck"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.vehicle_hire.id_for_label}}" class="col-sm-6 col-form-label">Vehicle
+                        Hire:</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.vehicle_hire}}
+                        <div class="help-block error">
+                            <span for="{{ form.vehicle_hire.html_name }}">{{ form.vehicle_hire.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.weight.id_for_label}}" class="col-sm-6 col-form-label">Weight
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.weight}}
+                        <div class="help-block error">
+                            <span for="{{ form.weight.html_name }}">{{ form.weight.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="{{form.advance_amount.id_for_label}}" class="col-sm-6 col-form-label">Balance Amount:</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{form.balance_amount}}
+                        <div class="help-block error">
+                            <span for="{{ form.balance_amount.html_name }}">{{ form.balance_amount.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!--right side -->
+        </div>
+        <hr class="rounded">
+
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+            <div class="controls col-md-4 ">
+                        <button type="button" class="btn btn-primary" onclick="$('#submit-form-name').attr('value', 0);validateAndShowModal()">
+
+  Fetch Orders
+</button>
+            </div>
+        </div>
+            <input id="submit-form-name" type="hidden" name="challan" value=0>
+            </form>
+        </div>
+            </div>
+        </div>
+
+
+
+                             <div class="row" id="matched-orders">
+
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <h5>Orders that match the given criteria:</h5>
+<div class="container mt-100">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+      <table class="table table-bordered" id="ordersTable" >
+        <thead>
+          <tr>
+            <th scope="col" style="display:none;">Id</th>
+            <th scope="col">CONSIGNOR</th>
+            <th scope="col">CONSIGNEE</th>
+            <th scope="col">G.C.NO</th>
+            <th scope="col">DATE</th>
+            <th scope="col">TO</th>
+            <th scope="col">PKGS</th>
+            <th scope="col">WEIGHT</th>
+            <th scope="col">TOPAY(in Rs)</th>
+            <th scope="col">TBB(in Rs)</th>
+            <th scope="col">PAID(in Rs)</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for result in result_set %}
+          <tr>
+            <td style="display:none;">{{result.id}}</td>
+            <td>{{result.consignor.name}}</td>
+            <td>{{result.consignee.name}}</td>
+            <td>{{result.id}}</td>
+            <td>{{result.billing_date|date:"d.m.y" }}</td>
+            <td>{{result.consignee_place}}</td>
+            <td>{{result.no_of_packages}}</td>
+            <td>{{result.charged_weight}}</td>
+
+            {% if result.payment_status == "to_pay" %}
+                <td>{{result.total_charges}}</td>
+                <td>---</td>
+                <td>---</td>
+            {% elif result.payment_status == "tbb"%}
+                <td>---</td>
+                <td>{{result.total_charges|do_subtract:result.paid_amount}}</td>
+                <td>---</td>
+            {% elif result.payment_status == "paid"%}
+                <td>---</td>
+                <td>---</td>
+                <td>{{result.paid_amount}}</td>
+              {% endif %}
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+     <div class="form-group" >
+  <div class="controls col-md-4 ">
+    <button id="generate-challan" type="button" class="btn btn-primary" data-toggle="modal"
+    data-target="#popupModal"
+    onclick="$('#submit-form-name').attr('value', 1)">
+        Generate Challan
+    </button>
+  </div>
+</div>
+    </div>
+    </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+                    </div>
+     </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+
+{% if r_method == "POST" %}
+    <script>
+        $(".driver-contact").hide();
+        $("#driver-details").val("{{selected_driver_id}}").change();
+
+        $("#vehicle-details").val("{{selected_vehicle_no_id}}").change();
+    </script>
+
+{% else %}
+<script>
+    $('#id_place_of_delivery').append(`<option value="" selected>---------</option>`);
+</script>
+{% endif %}
+
+<script>
+{% if result_set|length > 0 %}
+    $('#matched-orders').show();
+{% else %}
+    $('#matched-orders').hide();
+{% endif %}
+$('input').addClass("form-control");
+$(".driver-contact").hide();
+$('select[name=place_of_delivery]').addClass("form-control");
+$('select[name=driver]').addClass("form-control");
+$('input[type=date]').attr("required");
+$('select[name=driver]').attr("required");
+
+$(document).ready(function() {
+    $("#ordersTable").DataTable();
+    $('.dataTables_length').addClass('bs-select');
+    $("#generate-challan").hide();
+   $('#ordersTable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        if ($('.selected').length > 0){
+           $("#generate-challan").show();
+        }
+        else{
+           $("#generate-challan").hide();
+        }
+    });
+        $('#generate-challan').click( function () {
+             var order_list = []
+             $('.selected').each(function(){
+               order_list.push($(this).children('td:first').html());
+             });
+             $('#order-ids').val(""+order_list);
+             $('#popupModal').modal('show');
+        });
+});
+</script>
+{% endblock other_scripts %}

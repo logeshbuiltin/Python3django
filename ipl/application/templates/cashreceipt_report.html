@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract %}
+{%block title %}Reports{% endblock title %}
+{% block other_styles %}
+<style>
+   hr.rounded {
+   border-top: 3px dashed #bbb;
+   border-radius: 5px;
+   }
+   .form-control{
+   border:1px solid black;
+   }
+   .form-group{
+   margin-bottom: 25px;
+   }
+   h5{
+   margin-bottom: 15px;
+   }
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Payment Status Update{% endblock modal-title %}
+{% block body_content %}
+<div class="main-content">
+   <div class="wrapper">
+         <form method="POST" name="update-payment form" action="" >
+            {% csrf_token %}
+            <div class="form-group row">
+               <div class="col-sm-6 has-feedback">
+                   <input type="hidden" id="order-ids" name="order_list"  value="">
+               </div>
+            </div>
+         </form>
+      {% if update_status %}
+         <h3 class="text-success">Payment Status updated Successfully</h3>
+      {% endif %}
+      {% if result_set|length == 0 %}
+               <h3 class="text-danger">No Cash Receipts found</h3>
+      {% endif %}
+      <div class="row"  id="matched-orders">
+         <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <div class="container mt-100">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-header">
+                           <table class="table table-bordered" id="ordersTable" >
+                              <thead>
+                                 <tr>
+                                   <th scope="col" style="display:none;">Id</th>
+                                    <th scope="col">G.R.NO</th>
+                                    <th scope="col">RECEIPT DATE</th>
+                                    <th scope="col">RECEIVED FROM</th>
+                                    <th scope="col">BOOKED FROM</th>
+                                    <th scope="col">BOOKED TO</th>
+                                    <th scope="col">TOTAL AMOUNT</th>
+                                    <th scope="col">CREATED DATE</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 {% for result in result_set %}
+                                 <tr>
+                                    <td style="display:none;">{{result.id}}</td>
+                                    <td>{{result.gc_no}}</td>
+                                    <td>{{result.receipt_date|date:"d.m.y"}}</td>
+                                    <td>{{result.received_from}}</td>
+                                    <td>{{result.booked_from}}</td>
+                                    <td>{{result.booked_to}}</td>
+                                    <td>{{result.total_amount}}</td>
+                                    <td>{{result.created_dtm|date:"d.m.y"}}</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+                           </table>
+                           <div class="form-group" >
+                              <div class="controls col-md-8 ">
+                                 <button id="delete-button" type="button" class="btn btn-primary">
+                                 Mark as Paid
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+
+$(document).ready(function() {
+      $("#delete-button").hide();
+      $("#ordersTable").DataTable();
+      $('.dataTables_length').addClass('bs-select');
+      $('#ordersTable tbody').on( 'click', 'tr', function () {
+         $(this).toggleClass('selected');
+         if ($('.selected').length > 0){
+            $("#delete-button").show();
+         }
+         else{
+            $("#delete-button").hide();
+         }
+      });
+    $('#delete-button').click( function () {
+         var order_list = []
+         $('.selected').each(function(){
+           order_list.push($(this).children('td:first').html());
+         });
+         $('#order-ids').val(""+order_list);
+         validateAndShowModal();
+    });
+});
+</script>
+
+{% endblock other_scripts %}

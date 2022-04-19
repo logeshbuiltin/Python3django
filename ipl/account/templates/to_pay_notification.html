@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#customers {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+
+#customers th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+</head>
+    <body>
+        <br>
+        <h4>Dear Team,</h4>
+        <p>Below are the orders that are in TO PAY for more than 14 days</p>
+        <table id="customers"><thead>
+                                 <tr>
+                                    <th scope="col">GR NO</th>
+                                    <th scope="col">DATE</th>
+                                    <th scope="col">CONSIGNOR</th>
+                                    <th scope="col">CONSIGNEE</th>
+                                    <th scope="col">FROM</th>
+                                    <th scope="col">TO</th>
+                                    <th scope="col">TOTAL AMOUNT</th>
+                                 </tr></thead>
+                              <tbody>
+                                 {% for result in result_set %}
+                                 <tr>
+                                    <td>{{result.id}}</td>
+                                    <td>{{result.created_dtm|date:"d.m.y"}}</td>
+                                    <td>{{result.consignor.name}}</td>
+                                    <td>{{result.consignee.name}}</td>
+                                    <td>{{result.consignor_place}}</td>
+                                    <td>{{result.consignee_place}}</td>
+                                    <td>{{result.total_charges}}</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+</table>
+
+    </body>
+</html>

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title %}Consignee Details{% endblock title %}
+{% block other_styles %}
+<style xmlns="http://www.w3.org/1999/html">
+    hr.rounded {
+      border-top: 3px dashed #bbb;
+      border-radius: 5px;
+    }
+    .form-control{
+        border:1px solid black;
+    }
+    .form-group{
+        margin-bottom: 25px;
+    }
+    h5{
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock other_styles %}
+{% block body_content %}
+<div class="main-content">
+     <div class="wrapper">
+        <div class="container">
+            {% if upload_status %}
+                <div class="alert alert-success"><i class="fa fa-check"></i>Consignee Added Successfully</div>
+            {% endif %}
+        </div>
+     </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+</script>
+{% endblock other_scripts %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title %}Login to Continue{% endblock title %}
+{% block body_content %}
+ <div class="wrapper">
+  <div class="container">
+      <div class="row">
+          <div class="col-sm-8">
+              <form class="" name="accountLoginForm" id="accountLoginForm" action="" method="POST">
+                  {% csrf_token %}
+
+                <div class="form-group">
+                        {% if error %}
+                        <div class="col-sm-6 alert alert-danger" role="alert">
+                            <i class="fa fa-exclamation-circle"></i>&nbsp;{{ error_msg|linebreaksbr  }}
+                        </div>
+                       {% endif %}
+                    <label for="{{form.email.id_for_label}}" class="col-sm-4 col-form-label">Email:
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        {{ form.email }}
+                        <div class="help-block error">
+                           <span for="{{ form.email.html_name }}">{{ form.email.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="{{form.password.id_for_label}}" class="col-sm-4 col-form-label">Password:
+                        :</label>
+                    <div class="col-sm-6">
+                        {{ form.password }}
+                        <div class="help-block error">
+                           <span for="{{ form.password.html_name }}">{{ form.password.errors.as_text | cut:"* " }}</span>
+                        </div>
+                    </div>
+                </div>
+                      <div class="form-group">
+                          <div class="row">
+                              <div
+                                      class="col-xs-12 col-xxs-12 text-left forgot"><a
+                                      href="{{forgot_password_link}}">Forgot
+                                  password?</a></div>
+                          </div>
+                      </div>
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+            <div class="controls col-md-2 ">
+                <input type="submit" class="btn btn btn-primary">
+            </div>
+        </div>
+<!--                  <div class="form-body">-->
+<!--                        {% if error %}-->
+<!--                        <div class="alert alert-danger" role="alert">-->
+<!--                            <i class="fa fa-exclamation-circle"></i>&nbsp;{{ error_msg|linebreaksbr  }}-->
+<!--                        </div>-->
+<!--                        {% endif %}-->
+<!--                        {% if logout %}-->
+<!--                            <div class="alert alert-success text-center" role="alert">-->
+<!--                                <i class="fa fa-exclamation-circle"></i>&nbsp;Logged out-->
+<!--                            </div>-->
+<!--                        {% endif %}-->
+<!--                      <div class="form-group has-feedback">-->
+<!--                          <div class="input-group input-addon">-->
+<!--                              <span class="input-group-addon"><i class="fa fa-user"></i></span>-->
+<!--                              {{ form.email }}-->
+<!--                              <i class="form-control-feedback fa"></i>-->
+<!--                              <small class="help-block" for="{{ form.username.html_name }}">{{ form_errors.username.as_text }}</small>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group has-feedback">-->
+<!--                          <div class="input-group input-addon">-->
+<!--                              <span class="input-group-addon"><i class="fa fa-lock"></i></span>-->
+<!--                              {{ form.password }}-->
+<!--                              <i class="form-control-feedback fa"></i>-->
+<!--                              <small class="help-block" for="{{ form.password.html_name }}">{{ form_errors.password.as_text }}</small>-->
+<!--                          </div>-->
+<!--                      </div>-->
+<!--                      <div class="form-group">-->
+<!--                          <div class="row">-->
+<!--                              <div class="col-xs-12 col-xxs-12 text-left forgot"><a href="">Forgot password?</a></div>-->
+<!--                          </div>-->
+<!--                      </div>-->
+
+<!--                      <div class="btn-block">-->
+<!--                          <button type="submit" class="btn btn-primary full-width has-spinner">-->
+<!--                              <i class="fa fa-sign-in"></i> Login-->
+<!--                          </button>-->
+<!--                      </div>-->
+<!--                  </div>-->
+              </form>
+          </div>
+      </div>
+  </div>
+ </div>
+{% endblock body_content %}

@@ -1,0 +1,234 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract %}
+{%block title %}Reports{% endblock title %}
+{% block other_styles %}
+<style>
+   hr.rounded {
+   border-top: 3px dashed #bbb;
+   border-radius: 5px;
+   }
+   .form-control{
+   border:1px solid black;
+   }
+   .form-group{
+   margin-bottom: 25px;
+   }
+   h5{
+   margin-bottom: 15px;
+   }
+</style>
+{% endblock other_styles %}
+{% block body_content %}
+<div class="main-content">
+   <div class="wrapper">
+                  <div id="date-section">
+                     <div class="row">
+                        <div class="col-6">
+         <div class="form-group row">
+            <label class="col-sm-6 col-form-label" style="font-size:20px;">From Date
+                :</label>
+            <input class="required_field order_dates" id="order_created_date_from" name= "order_created_date_from" type="date" onchange="validateData();">
+         </div>
+                        </div>
+                        <div class="col-6">
+         <div class="form-group row">
+            <label class="col-sm-6 col-form-label" style="font-size:20px;">To Date
+                :</label>
+            <input class="required_field order_dates" id="order_created_date_to" name= "order_created_date_to" type="date" onchange="validateData();">
+         </div>
+                        </div>
+                     </div>
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+            <div class="controls col-md-4 ">
+            <button id="fetch-data-button" type="button" class="btn btn-primary" onclick="fetchData()">
+                Fetch Orders
+            </button>
+            </div>
+        </div>
+            <hr class="rounded">
+
+            </div>
+      {% for result in result_set %}
+      <div  class="row matched-orders" style="margin-left:200px;margin-right:auto;">
+         <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <br><br><br><br><br><br>
+
+            {% if payment_status == "to_pay" %}
+            <h5 style="text-align:center">Orders with the status <b>TO PAY</b>:</h5>
+            {% elif payment_status == "tbb" %}
+            <h5 style="text-align:center">Orders with the status <b>TO BE BILLED</b>:</h5>
+            {% elif payment_status == "paid" %}
+            <h5 style="text-align:center">Orders with the status <b>PAID</b>:</h5>
+            {% endif %}
+            <div class="container mt-100">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-header">
+                              <table class="table table-bordered" id="ordersTable" >
+                                 <thead>
+                                    <tr>
+                                       <th scope="col">G.R.NO</th>
+                                       <th scope="col">DATE</th>
+                                       <th scope="col">CONSIGNOR</th>
+                                       <th scope="col">CONSIGNEE</th>
+                                       <th scope="col">FROM</th>
+                                       <th scope="col">TO</th>
+                                       {% if payment_status == "tbb" %}
+                                       <th scope="col">TOTAL AMOUNT</th>
+                                       <th scope="col">PAID AMOUNT</th>
+                                       <th scope="col">BALANCE AMOUNT</th>
+                                       {% else %}
+                                       <th scope="col">AMOUNT</th>
+                                       {% endif %}
+                                    </tr>
+                                 </thead>
+                                 <tbody>
+                                    {% for objects in result %}
+                                    <tr>
+                                       <td>{{objects.id}}</td>
+                                       <td>{{objects.billing_date|date:"d.m.y"}}</td>
+                                       <td>{{objects.consignor.name}}</td>
+                                       <td>{{objects.consignee.name}}</td>
+                                       <td>{{objects.consignor_place}}</td>
+                                       <td>{{objects.consignee_place}}</td>
+                                       {% if payment_status == "tbb" %}
+                                       <td>{{objects.total_charges}}</td>
+                                       <td>{{objects.paid_amount}}</td>
+                                       <td>{{objects.total_charges|do_subtract:objects.paid_amount}}</td>
+                                       {% else %}
+                                       <td>{{objects.total_charges}}</td>
+                                       {% endif %}
+                                    </tr>
+                                    {% endfor %}
+                                 </tbody>
+                              </table>
+                           {% if forloop.counter == result_set|length %}
+                           <h5 style="text-align:center">Grand Total: <b>Rs {{total_amount}}</b></h5>
+                           {% endif %}
+<!--                           {% if result_set|length > 0 %}-->
+<!--                           <div class="form-group" >-->
+<!--                              <div class="controls col-md-8 ">-->
+<!--                                 <button id="download-button" type="button" class="btn btn-primary">-->
+<!--                                 Download Report-->
+<!--                                 </button>-->
+<!--                              </div>-->
+<!--                           </div>-->
+<!--                           {% endif %}-->
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      {% endfor %}
+   </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+var redirectUrl = true;
+function validateData(){
+    $('.order_dates').each(function(i, obj){
+        if ($(obj).val() === ""){
+            redirectUrl = false;
+        }
+        else{
+            redirectUrl = true;
+        }
+     })
+     if (redirectUrl === false){
+        $("#fetch-data-button").hide();
+     }
+     else{
+        $("#fetch-data-button").show();
+     }
+}
+
+function fetchData(){
+   var newUrl = window.location.href;
+   if (newUrl.indexOf('&') !==-1){
+       newUrl = newUrl.substr(0, newUrl.indexOf('&')) + "&order_created_date_from="+$("#order_created_date_from").val() +
+       "&order_created_date_to="+$("#order_created_date_to").val();
+   }
+   else{
+    newUrl += "&order_created_date_from="+$("#order_created_date_from").val() +
+       "&order_created_date_to="+$("#order_created_date_to").val();
+   }
+   window.location.href = newUrl;
+}
+
+$(document).ready(function() {
+    $("#fetch-data-button").hide();
+    function sleep(ms) {
+     return new Promise(resolve => setTimeout(resolve, ms));
+   }
+
+   var isNavBarVisible = true;
+   function toggleNavBar(){
+      if (isNavBarVisible === true){
+         isNavBarVisible = false;
+      }
+      else{
+         isNavBarVisible = true;
+
+      }
+   }
+   function postDownload(){
+      $("#sidebarCollapse").show();
+      $("#sidebarCollapse").click();
+      $("#download-button").show();
+      $(".paginate_button").show();
+      $(".dataTables_length").show();
+      $("#ordersTable_filter").show();
+      $("#ordersTable_info").show();
+      $("#date-section").show();
+      $("fetch-data-button").attr("disabled", true);
+   }
+   $("#sidebarCollapse").on("click", function(){
+      toggleNavBar();
+   });
+
+<!--   $("#ordersTable").DataTable();-->
+   $('.dataTables_length').addClass('bs-select');
+   {% if enable_download %}
+      let page = $(".matched-orders");
+      async function printPdf() {
+         const pdf = html2PDF(page, {
+            jsPDF: {
+               format: "a4",
+               orientation: "l",
+            },
+            image: {
+               type: 'jpeg',
+               quality: 1
+            },
+            output: "{{payment_status}}.pdf"    
+            });
+         return pdf;
+      }
+      async function sleepThenAct(){
+         $("#download-button").hide();
+         if(isNavBarVisible == true){
+            $("#sidebarCollapse").click();
+         }
+         $("#sidebarCollapse").hide();
+         $(".paginate_button").hide();
+         $(".dataTables_length").hide();
+         $("#ordersTable_info").hide();
+         $("#ordersTable_filter").hide();
+         $("#date-section").hide();
+         await sleep(750);
+         printPdf().then(pdf=>postDownload());
+      }
+      sleepThenAct();
+{% endif %}
+});
+</script>
+<!--<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>-->
+{% endblock other_scripts %}

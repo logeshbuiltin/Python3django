@@ -1,0 +1,299 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title %}Driver Details{% endblock title %}
+{% block other_styles %}
+<style xmlns="http://www.w3.org/1999/html">
+   hr.rounded {
+   border-top: 3px dashed #bbb;
+   border-radius: 5px;
+   }
+   .form-control{
+   border:1px solid black;
+   }
+   .form-group{
+   margin-bottom: 25px;
+   }
+   h5{
+   margin-bottom: 15px;
+   }
+    .big-checkbox {width: 20px; height: 15px;}
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Driver Update{% endblock modal-title %}
+{% block body_content %}
+<div class="main-content">
+   <div class="wrapper">
+      <div class="container">
+         {% if upload_status %}
+         <div class="alert alert-success"><i class="fa fa-check"></i>Driver Added Successfully</div>
+         {% endif %}
+            {% if driver_exists %}
+                <div class="alert alert-danger">Driver already Exist, Please verify</div>
+            {% endif %}
+            {% if deleted %}
+                <div class="alert alert-danger">Driver(s) deleted successfully</div>
+            {% endif %}
+         <div class="col-sm-12">
+            <div class="row">
+                    <form method="POST" name="delete-form" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 has-feedback">
+                              <input type="hidden" id="delete-ids" name="delete_list"  value="">
+                            </div>
+                        </div>
+                    </form>
+               <form method="POST" name="order-form" action="" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <h5><u>Personal Details</u></h5>
+                  <div class="row">
+                     <div class="col-6">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.name.id_for_label}}" class="col-sm-6 col-form-label">Name:</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.name}}
+                              <div class="help-block error">
+                                 <span for="{{ form.name.html_name }}">{{ form.name.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.contact_number.id_for_label}}" class="col-sm-6 col-form-label">Contact Number
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.contact_number}}
+                              <div class="help-block error">
+                                 <span for="{{ form.contact_number.html_name }}"></span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.family_contact.id_for_label}}" class="col-sm-6 col-form-label">Family Contact
+                           Number
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.family_contact}}
+                              <div class="help-block error">
+                                 <span for="{{ form.family_contact.html_name }}">{{ form.family_contact.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+
+                     <div class="col-6">
+                        <div class="form-group row">
+                           <label for="{{form.date_of_joining.id_for_label}}" class="col-sm-6 col-form-label">Date of
+                           Joining:</label>
+                           <div class="col-sm-6 has-feedback">
+                              <input name="date_of_joining" type="date" id="date_of_joining" required>
+                              <div class="help-block error">
+                                 <span for="{{ form.date_of_joining.html_name }}">{{ form.date_of_joining.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.alternate_contact.id_for_label}}" class="col-sm-6 col-form-label">Alternative
+                           Contact
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.alternate_contact}}
+                              <div class="help-block error">
+                                 <span for="{{ form.alternate_contact.html_name }}">{{ form.alternate_contact.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+
+                     </div>
+                     <!--right side -->
+                  </div>
+                  <hr class="rounded">
+                  <h5><u>Address Details</u></h5>
+                   <div class="row">
+                     <div class="col-12">
+                        <div class="form-group row">
+                           <label for="{{form.address_permanent.id_for_label}}" class="col-sm-6 col-form-label">Permanent
+                           Address
+                           :</label>
+                           <div class="col-sm-6 has-feedback text-truncate">
+                              {{form.address_permanent}}
+                              <div class="help-block error">
+                                 <span for="{{ form.address_permanent.html_name }}">{{ form.address_permanent.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-sm-6 col-form-label" for="flexCheckDefault">
+                            Is Temporary address same as Permanent?
+                          </label>
+                           <div class="col-sm-6 has-feedback">
+                             <input class="form-control big-checkbox" type="checkbox" value="" id="addressCheck">
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.address_temporary.id_for_label}}" class="col-sm-6 col-form-label">Temporary
+                           Address:</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.address_temporary}}
+                              <div class="help-block error">
+                                 <span for="{{ form.address_temporary.html_name }}">{{ form.address_temporary.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                   </div>
+                  <hr class="rounded">
+                  <h5><u>License Details</u></h5>
+                  <div class="row">
+                     <div class="col-12">
+                        <!--left side -->
+                        <div class="form-group row">
+                           <label for="{{form.license_number.id_for_label}}" class="col-sm-6 col-form-label">License Number
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.license_number}}
+                              <div class="help-block error">
+                                 <span for="{{ form.license_number.html_name }}">{{ form.license_number.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group row">
+                           <label for="{{form.license_document.id_for_label}}" class="col-sm-6 col-form-label">License Document
+                           :</label>
+                           <div class="col-sm-6 has-feedback">
+                              {{form.license_document}}
+                              <div class="help-block error">
+                                 <span for="{{ form.license_document.html_name }}">{{ form.license_document.errors.as_text | cut:"* " }}</span>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <hr class="rounded">
+                  <div class="form-group">
+                     <div class="aab controls col-md-4 "></div>
+                     <div class="controls col-md-2 ">
+                        <button type="button" class="btn btn-primary" onclick="validateAndShowModal()">
+  Submit
+</button>                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="table-wrapper-scroll-y my-custom-scrollbar">
+            <h5>Available Drivers List:</h5>
+            <div class="container mt-100">
+               <div class="row">
+                  <div class="col-md-12">
+                     <div class="card">
+                        <div class="card-header">
+                           <table class="table table-bordered" id="iplTable" >
+                              <thead>
+                                 <tr>
+                                   <th scope="col" style="display:none;">Id</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Contact Number</th>
+                                    <th scope="col">Family Contact Number</th>
+                                    <th scope="col">Alternative Contact</th>
+                                    <th scope="col">License Number</th>
+                                    <th scope="col">License Document</th>
+                                    <th scope="col">Date of Joining</th>
+                                    <th scope="col">Permanent Address</th>
+                                    <th scope="col">Temporary Address</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 {% for driver in drivers%}
+                                 <tr>
+                                    <td style="display:none;">{{driver.id}}</td>
+                                    <td>{{driver.name}}</td>
+                                    <td>{{driver.contact_number}}</td>
+                                    <td>{{driver.family_contact}}</td>
+                                    <td>{{driver.alternate_contact}}</td>
+                                    <td>{{driver.license_number}}</td>
+                                    <td><a href="{{driver.license_document.name}}" target="_blank">Click Here</a></td>
+                                    <td>{{driver.date_of_joining}}</td>
+                                    <td>{{driver.address_permanent}}</td>
+                                    <td>{{driver.address_temporary}}</td>
+                                 </tr>
+                                 {% endfor %}
+                              </tbody>
+                           </table>
+                           <div class="form-group" >
+                              <div class="controls col-md-8 ">
+                                 <button id="delete-button" type="button" class="btn btn-primary">
+                                 Delete
+                                 </button>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+   $('input').addClass("form-control");
+   $('input[type=date]').attr("required");
+
+    $("#delete-form-submit").hide();
+    $("#form-submit").show();
+    function toggleSubmitButtons(){
+        if($("#delete-form-submit").is(":visible")){
+            $("#delete-form-submit").hide();
+            $("#form-submit").show();
+        }
+        else{
+            $("#delete-form-submit").show();
+            $("#form-submit").hide();
+        }
+    }
+   $(document).ready(function() {
+      $("#delete-button").hide();
+     $("#iplTable").DataTable();
+     $('.dataTables_length').addClass('bs-select');
+       $('#iplTable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+            if ($('.selected').length > 0){
+               $("#delete-button").show();
+            }
+            else{
+               $("#delete-button").hide();
+            }
+        });
+    $('#delete-button').click( function () {
+         var delete_list = []
+         $('.selected').each(function(){
+           delete_list.push($(this).children('td:first').html());
+         });
+         $('#delete-ids').val(""+delete_list);
+         toggleSubmitButtons();
+         $('#popupModal').modal('show');
+    });
+   });
+
+     $('#id_address_permanent').on('change', function(){
+      if($('#addressCheck').is(':checked')){
+         $('#id_address_temporary').val($('#id_address_permanent').val());
+      }
+     });
+   $('#addressCheck').on('click', function(){
+      if ($(this).is(':checked')){
+        $('#id_address_temporary').val($('#id_address_permanent').val());
+        $('#id_address_temporary').attr("readonly", "readonly");
+      }
+      else{
+         $('#id_address_temporary').val("");
+         $('#id_address_temporary').attr("readonly", false);
+      }
+      $("form").valid();
+   });
+</script>
+{% endblock other_scripts %}

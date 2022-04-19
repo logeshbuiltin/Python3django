@@ -1,0 +1,107 @@
+<!--    #box1 {-->
+<!--        border: 3px solid;position:absolute;-->
+<!--    }-->
+<!--  #box2 {-->
+<!--                float:left;-->
+<!--                width:30%;-->
+<!--                height:280px;-->
+<!--            }-->
+<!--  #box3 {-->
+<!--                float:right;-->
+<!--                width:70%;-->
+<!--                height:280px;-->
+<!--            }-->
+<!--.flex-container {-->
+<!--  display: flex;-->
+<!--  flex-wrap: nowrap;-->
+<!--  background-color: black;-->
+<!--}-->
+
+<!--.flex-container .box {-->
+<!--  background-color: white;-->
+<!--  width: 50%;-->
+<!--  margin: 10px;-->
+<!--  text-align: center;-->
+<!--  line-height: 75px;-->
+<!--  font-size: 30px;-->
+<!--}-->
+
+.container {
+  /* Important for columns */
+  display: -webkit-flex;
+  display: flex;
+}
+
+.item {
+  /* Important for columns */
+  flex-grow: 1;
+  border: 3px solid #808080;
+  border-top: none;
+  height: 52px;
+  padding: 10px;
+}
+
+.heading {
+  border: 3px solid #808080;
+  margin: 0;
+  text-transform: uppercase;
+  font-size: 38px;
+  color: #808080;
+  text-align: center;
+}
+
+
+/* Remove duplicate borders */
+.item-2 {
+  border-left: none;
+  border-right: none;
+}
+<div id="box1">
+<!--  <div>-->
+<!--    <span>Indore Professional Logistics </span><span>Royal<br></span>-->
+<!--    <span>NO:313/1, 3RD, SHRI RAM NAGAR, FCI MAIN ROAD, GANDHIMAANAGAR,<br></span>-->
+<!--    <span>PEELAMEDU, COIMBATORE - 641664.<br></span>-->
+<!--    <span>9443353836,9994980771,773,774,7339000885<br></span>-->
+<!--    <span style="font-size:8px;color:red"><u>GSTIN:33GJGPS5589P1Z2. PAN:GJGPS5589P</u><br></span>-->
+<!--  </div>-->
+<!--  <hr/>-->
+<!-- <div class="flex-container">-->
+<!--  <div class="box">-->
+<!--    <span>LOADING CHALLAN</span><br>-->
+<!--    <span>NO: IND-0238</span><br>-->
+<!--    <span>DATE: 21.10.2021</span>-->
+<!--  </div>-->
+<!--  <div class="box">Box 2 - My height will follow Box 1.</div>-->
+<!--</div>-->
+<!--  <span id="box2">-->
+<!--    <span>LOADING CHALLAN</span><br>-->
+<!--    <span>NO: IND-0238</span><br>-->
+<!--    <span>DATE: 21.10.2021</span>-->
+<!--  </span>-->
+<!--    <span id="box3">-->
+<!--    <span>LOADING CHALLAN</span>-->
+<!--    <span>NO: IND-0238</span>-->
+<!--    <span>DATE: 21.10.2021</span>-->
+<!--  </span>-->
+<!--  <hr/>-->
+<h1 class="heading">
+  <span>Indore Professional Logistics </span><span>Royal<br></span>
+    <span>NO:313/1, 3RD, SHRI RAM NAGAR, FCI MAIN ROAD, GANDHIMAANAGAR,<br></span>
+    <span>PEELAMEDU, COIMBATORE - 641664.<br></span>
+    <span>9443353836,9994980771,773,774,7339000885<br></span>
+    <span style="color:red"><u>GSTIN:33GJGPS5589P1Z2. PAN:GJGPS5589P</u><br></span>
+</h1>
+<div class="container">
+  <div class="item item-1">
+    <img src="images/ruler-icon.png">
+  </div>
+
+  <div class="item item-2">
+    <img src="images/bed-icon.png">
+  </div>
+
+  <div class="item item-3">
+    <img src="images/bath-icon.png">
+  </div>
+</div>
+</div>

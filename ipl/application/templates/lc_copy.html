@@ -1,0 +1,435 @@
+{% load static%}
+<!DOCTYPE html>
+<head>
+<style type="text/css">
+body {
+    width: 794px;
+    max-height: 1122px;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
+    font-size: 13px;
+    line-height: 17px;
+    color: #000000;
+    -webkit-text-size-adjust: 100%;
+    -ms-text-size-adjust: 100%;
+	page-break-before:always;
+	clear: all;
+}
+@font-face {
+    font-family: 'peignotbold';
+    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
+         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
+    font-weight: normal;
+    font-style: normal;
+
+}
+.table-content td{
+font-size:10px;
+}
+table td {
+    word-break: break-word;
+}
+table, th, td {
+    border-collapse: collapse;
+}
+.table-bordered {
+    border: 1px solid #000000;
+}
+.table-bordered th, .table-bordered td {
+    border-top: 1px solid #000000;
+    border-right: 1px solid #000000;
+}
+.table-bordered tbody tr:first-child th, .table-bordered tbody tr:first-child td {
+    border-top: none;
+}
+.table-bordered tbody tr th:last-child, .table-bordered tbody tr td:last-child {
+    border-right: none;
+}
+.table-bordered th {
+    color: #cf2b20;
+}
+.table-pad th, .table-pad td {
+    padding: 5px 10px;
+}
+.t-b-0 td {
+    border: 0 !important;
+}
+.t-p-0 td {
+    padding: 0;
+}
+.t-py-0 td {
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.bt-0 td {
+    border-top: 0;
+}
+.b-1 {
+    border: 1px solid #000000;
+}
+.bt-1 {
+    border-top: 1px solid #000000 !important;
+}
+.bb-1 th, .bb-1 td {
+    border-bottom: 1px solid #000000 !important;
+}
+.br-0 {
+    border-right: 0 !important;
+}
+.bb-0 {
+    border-bottom: 0 !important;
+}
+.p-0 {
+    padding: 0 !important;
+}
+.p-5 {
+    padding: 5px;
+}
+.p-10 {
+    padding: 10px;
+}
+.pr-0 {
+    padding-right: 0px !important;
+}
+.pt-5 {
+    padding-top: 5px;
+}
+.pt-15 {
+    padding-top: 15px;
+}
+.pl-10 {
+    padding-left: 10px;
+}
+.px-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+.px-10 {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.px-15 {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.py-10 {
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+.mt-5 {
+    margin-top: 5px !important;
+}
+.f-15 {
+    font-size: 15px;
+    line-height: 18px;
+}
+.w-50 span {
+    width: 48%;
+    display: inline-block;
+    text-align: left;
+}
+.text-red {
+    color: #cf2b20;
+}
+.text-blue {
+    color: #426692;
+}
+.text-right {
+    text-align: right;
+}
+.text-line {
+    text-decoration: underline;
+}
+.d-block {
+    display: block;
+}
+.border-box {
+    background-color: #dddae1;
+    padding: 5px 10px;
+    border: 1px solid #333266;
+    border-radius: 8px;
+}
+.heading{
+    font-size:26px;
+    color:red;
+	font-family: peignotbold;
+}
+.sub-heading{
+    font-size:12px;
+}
+
+.sup {
+ vertical-align: super;
+ color:red;
+}
+.load-challan th {
+	font-size: 11px !important;
+}
+</style>
+<script src="/js/jquery.min.js"></script>
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
+</head>
+<html>
+<body>
+<div id="download-section">
+    <div>
+    <table id="table-download-section" border="0" cellspacing="0" cellpadding="0" class="table-bordered table-pad" style="width:100%;">
+        <tr>
+            <td align="center" valign="top" class="py-10"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0">
+                <tr>
+                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}"width="100" alt="Image"></td>
+                    <td class="px-0"><table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
+                        <tr>
+                            <td align="center">
+                                <div class="heading">Indore Professional Logistics <span style="color:blue">Royal</span></div><br>
+                                <div class="sub-heading" style="text-transform: uppercase;">
+                                    No.:313/1, 3rd Shriram Nagar, FCI Main Road, Gandhimaanagar,<br> Peelamedu, Coimbatore - 641004.<br>
+                                        <strong>PHONE</strong>: 9443353836, 99949807771,773,774, 7339000885.<br>
+                                    <span style="color:red"><u>gst in:33gjgps5589p1z2. pan:gjgps5589p</u></span>
+                                </div>
+                            </td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td valign="top" width="175" class="br-0 pr-0"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0 b-1">
+                        <tr>
+                            <td align="center" class="text-blue text-line f-15"><strong>LOADING CHALLAN</strong></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>
+                                    <span class="text-red">NO:</span> {{lc.lc_no}}<br>
+                                    <span class="text-red">DATE:</span> {{lc.created_dtm|date:"Y-m-d"}}<br><br><br>
+                                </strong>
+                            </td>
+                        </tr>
+                    </table></td>
+                    <td valign="top">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0 b-1">
+                            <tr>
+                                <td width="30%">
+                                    <strong>
+                                        <span class="text-red">From: </span>
+                                        {{lc.place_of_receipt}}
+                                    </strong>
+                                </td>
+                                <td width="30%">
+                                    <strong>
+                                        <span class="text-red">To: </span>
+                                        {{lc.place_of_delivery}}
+                                    </strong>
+                                </td>
+                                <td width="40%">
+                                    <strong>
+                                        <span class="text-red">DriverName: </span>
+                                        {{lc.driver.name}}
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0 b-1 mt-5">
+                            <tr>
+                                <td width="40%">
+                                    <strong>
+                                        <span class="text-red">Vehicle No: </span>
+                                        {{lc.vehicle_no.truck_number}}
+                                    </strong>
+                                </td>
+                                <td width="25%">
+                                    <strong>
+                                        <span class="text-red">Supplier: </span>
+                                        {{lc.supplier}}
+                                    </strong>
+                                </td>
+                                <td width="35%">
+                                    <strong>
+                                        <span class="text-red">Mobile: </span>
+                                        {{lc.driver.contact_number}}
+                                    </strong>
+                                </td>
+                            </tr>
+                        </table>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0 b-1 mt-5">
+                            <tr>
+                                <td style="font-size: 12px; width: 18%;">
+                                    <strong><span class="text-red">Weight: </br></span>{{lc.weight}}</strong>
+                                </td>
+                                <td width="20" style="font-size: 12px; width: 22%;">
+                                    <strong><span class="text-red">Vehicle Hire: </br></span>{{lc.vehicle_hire}}</strong>
+                                </td>
+                                <td width="30" style="font-size: 12px; width: 30%;">
+                                    <strong><span class="text-red">Advance:</br></span>
+                                    Rs. {{lc.advance_amount}}/-</strong>
+                                </td>
+                                <td width="30" style="font-size: 12px; width: 30%;">
+                                    <strong><span class="text-red">Balance: </br></span>Rs. {{lc.balance_amount}}/-</strong>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="bt-0 table-content">
+                <thead>
+                    <tr class="bb-1 load-challan">
+                        <th align="center" width="4">S.</br>NO</th>
+                        <th width="18">Consignor</br>Name</th>
+                        <th width="18">Consignee</br>Name</th>
+                        <th align="center" width="4">G.C.NO</th>
+                        <th width="10">Date</th>
+                        <th width="14">To</th>
+                        <th width="12">PKGS</th>
+                        <th align="center" width="4">Wt.</th>
+                        <th align="center" width="8">To Pay</th>
+                        <th align="center" width="6">TBB</th>
+                        <th align="center" width="10">Paid</th>
+                    </tr>
+                </thead>
+                <tbody style="height: 550px; vertical-align: top;">
+                {% for result in result_set %}
+                    <tr>
+                        <td align="center">{{forloop.counter}}</td>
+                        <td align="left">{{result.consignor.name}}</td>
+                        <td align="left">{{result.consignee.name}}</td>
+                        <td align="center">{{result.id}}</td>
+                        <td align="left">{{result.billing_date|date:"Y-m-d"}}</td>
+                        <td align="left">
+                            <strong>{{result.consignee_place}}</strong>
+                        </td>
+                        <td align="center">{{result.no_of_packages}}</td>
+                        <td align="center">{{result.charged_weight}}</td>
+                        <td align="center">{%if result.payment_status == "to_pay"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                        <td align="center">{%if result.payment_status == "tbb"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                        <td align="center">{%if result.payment_status == "paid"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                    </tr>
+                {% endfor %}
+                    <tr style="height: 50px; vertical-align: top;">
+                        <td colspan="6" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td align="right">
+                                    <strong>Total</strong>
+                                </td>
+                            </tr>
+                        </table></td>
+
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{pkgs_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{weight_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{topay_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{tbb_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{paid_total}}</strong>
+                        </td>
+                    </tr>
+
+                </tbody>
+            </table></td>
+        </tr>
+        <tr>
+            <td valign="top" class="p-0">
+                <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                    <td valign="top" width="50%" class="p-0 br-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td valign="top">Received the above Goods in Good Condition</td>
+                        </tr>
+                        <tr>
+                            <td valign="top" height="25">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td valign="top">Driver Signature</td>
+                        </tr>
+                    </table></td>
+                    <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <tr>
+                            <td valign="top" style="color:red" align="right">Indore Professional Logistics <span style="color:blue">Royal</span></td>
+                        </tr>
+                        <tr>
+                            <td valign="bottom" align="right" height="52">
+                                Authorised Signature
+                            </td>
+                        </tr>
+                    </table></td>
+                </tr>
+            </table></td>
+        </tr>
+        <tr>
+            <td valign="bottom" align="center" height="25">Note: The driver, owners & Lorry Supplier responsible for all consignments.</td>
+        </tr>
+    </table>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+<script>
+$(document).ready(function() {
+     $("html").css("zoom", "1.1");
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                // Does this cookie string begin with the name we want?
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    const csrftoken = getCookie('csrftoken');
+    let page = $("#download-section");
+    $(".need-split").each(function(i, obj){
+        $(obj).html($(obj).html().match(/.{1,12}/g).join("<br>"));
+    })
+    async function printPdf() {
+      const pdf = html2PDF(page, {
+            jsPDF: {
+                format: "a4",
+                orientation: "p"
+            },
+            image: {type: 'jpeg', quality: 1},
+            output: {{lc.lc_no}}+'_lc.pdf'
+          });
+      return pdf;
+    }
+
+
+    function saveFile(pdf){
+        $.ajax({
+            type: "POST",
+            url: '/downloads?download_type=lc',
+            headers: {'X-CSRFToken': csrftoken},
+            data: {
+                'id': {{lc.lc_no}},
+                'pdf_data': btoa(pdf.output())
+            }
+        }).done(function (result) {
+            window.open('/landingpage', "_self");
+        });
+    }
+    printPdf().then(pdf=>saveFile(pdf));
+
+});
+</script>
+</body>
+</html>

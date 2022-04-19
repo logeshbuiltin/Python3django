@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load subtract %}
+{%block title %}Bill Generation{% endblock title %}
+{% block other_styles %}
+<style>
+    hr.rounded {
+      border-top: 3px dashed #bbb;
+      border-radius: 5px;
+    }
+    .form-control{
+        border:1px solid black;
+    }
+    .form-group{
+        margin-bottom: 25px;
+    }
+    h5{
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Bill Generation{% endblock modal-title %}
+{% block body_content %}
+<div class="main-content">
+     <div class="wrapper">
+        <div class="container">
+             <h2 class="mb-4 ">{% block section_heading %}Bill Generation{% endblock section_heading %}</h2>
+                    {% if result_set|length == 0 and r_method == "POST" %}
+                        <h3 class="text-danger">No Orders Found for the given criteria</h3>
+                    {% endif %}
+        <form method="POST" name="order-form" action="">
+            {% csrf_token %}
+                              <input type="hidden" id="order-ids" name="order_list"  value="">
+                <div class="form-group row">
+                    <label for="{{form.consignor.id_for_label}}" class="col-sm-6 col-form-label">Select consignor
+                        :</label>
+                    <div class="col-sm-6 has-feedback">
+                        <select name="consignor" id="id_consignor" class="form-control">
+                            <option value="" selected>---------</option>
+                             {% for consignor in consignors %}
+                                <option value="{{consignor.id}}">{{consignor.name}}</option>
+                             {% endfor %}
+                        </select>
+                        <div class="help-block error">
+                            <span for="consignor"></span>
+                        </div>
+                    </div>
+                </div>
+        <hr class="rounded">
+
+        <div class="form-group">
+            <div class="aab controls col-md-4 "></div>
+            <div class="controls col-md-4 ">
+                        <button type="button" class="btn btn-primary" onclick="$('#submit-form-name').attr('value', 0);validateAndShowModal()">
+  Fetch Orders
+</button>
+            </div>
+        </div>
+            <input id="submit-form-name" type="hidden" name="bill" value=0>
+            </form>
+        </div>
+                             <div class="row" id="matched-orders">
+
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                    <h5>Order List:</h5>
+<div class="container mt-100">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+
+<table class="table table-bordered" id="ordersTable" >
+        <thead>
+          <tr>
+            <th scope="col">G.R.NO</th>
+            <th scope="col">DATE</th>
+            <th scope="col">NO.OF.PACKAGES</th>
+            <th scope="col">WEIGHT(in Kgs)</th>
+            <th scope="col">DESTINATION</th>
+            <th scope="col">PKGS</th>
+            <th scope="col">RATE Per Kgs</th>
+            <th scope="col">Freight Charges</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% for result in result_set %}
+          <tr>
+            <td>{{result.id}}</td>
+            <td>{{result.created_dtm|date:"d.m.y"}}</td>
+            <td>{{result.no_of_packages}}</td>
+            <td>{{result.actual_weight }}</td>
+            <td>{{result.consignee_place}}</td>
+            <td>{{result.no_of_packages}}</td>
+            <td>{{result.amount_per_kg}}</td>
+            <td>{{result.freight_charges}}</td>
+
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+                            <div class="form-group">
+            <div class="controls col-md-4 ">
+
+                        <button id="generate-bill" type="button" class="btn btn-primary" data-toggle="modal"
+                                data-target="#popupModal"
+                                onclick="$('#submit-form-name').attr('value', 1);">
+  Generate Bill
+                        </button></div>
+        </div>
+    </div>
+    </div>
+        </div>
+    </div>
+</div>
+    </div>
+
+                    </div>
+     </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+{% if selected_consignee %}
+<script>
+    $( "#id_consignor option:selected" ).val({{selected_consignee}});
+</script>
+{% endif %}
+<script>
+{% if result_set|length > 0 %}
+    $('#matched-orders').show();
+{% else %}
+    $('#matched-orders').hide();
+{% endif %}
+$('input').addClass("form-control");
+$(".driver-contact").hide();
+$('select[name=place_of_delivery]').addClass("form-control");
+$('select[name=driver]').addClass("form-control");
+$('input[type=date]').attr("required");
+$('select[name=driver]').attr("required");
+   $(document).ready(function() {
+     $("#ordersTable").DataTable();
+     $('.dataTables_length').addClass('bs-select');
+    $("#generate-bill").hide();
+   $('#ordersTable tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        if ($('.selected').length > 0){
+           $("#generate-bill").show();
+        }
+        else{
+           $("#generate-bill").hide();
+        }
+    });
+        $('#generate-bill').click( function () {
+             var order_list = []
+             $('.selected').each(function(){
+               order_list.push($(this).children('td:first').html());
+             });
+             $('#order-ids').val(""+order_list);
+             $('#popupModal').modal('show');
+        });
+   });
+</script>
+{% endblock other_scripts %}

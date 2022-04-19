@@ -1,0 +1,1 @@
+SECONDARY_USERS = ['secondary@gmail.com']

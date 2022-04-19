@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title %}Forgot Password{% endblock title %}
+{% block body_content %}
+ <div class="wrapper">
+  <div class="container">
+      <div class="row">
+          <div class="col-sm-12">
+              {% if mail_sent %}
+                <h6>Please check your email and follow the instructions</h6>
+              {% elif invalid_link %}
+                <h6>You are using an expired link</h6>
+              {% endif %}
+          </div>
+      </div>
+  </div>
+ </div>
+{% endblock body_content %}

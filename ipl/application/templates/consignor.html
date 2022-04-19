@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static %}
+{%block title %}Consignor Details{% endblock title %}
+{% block other_styles %}
+<style xmlns="http://www.w3.org/1999/html">
+    hr.rounded {
+      border-top: 3px dashed #bbb;
+      border-radius: 5px;
+    }
+    .form-control{
+        border:1px solid black;
+    }
+    .form-group{
+        margin-bottom: 25px;
+    }
+    h5{
+        margin-bottom: 15px;
+    }
+</style>
+{% endblock other_styles %}
+{% block modal-title %}Consignor Update{% endblock modal-title %}
+{% block body_content %}
+<div class="main-content">
+     <div class="wrapper">
+        <div class="container">
+            {% if upload_status %}
+                <div class="alert alert-success"><i class="fa fa-check"></i>Consignor Added Successfully</div>
+            {% endif %}
+            {% if consignor_exists %}
+                <div class="alert alert-danger">Consignor already Exist, Please verify</div>
+            {% endif %}
+            {% if deleted %}
+                <div class="alert alert-danger">Consignor(s) deleted successfully</div>
+            {% endif %}
+            <div class="col-sm-20">
+                <div class="row">
+                    <form method="POST" name="delete-form" action="" enctype="multipart/form-data">
+                                {% csrf_token %}
+                        <div class="form-group row">
+                            <div class="col-sm-6 has-feedback">
+                              <input type="hidden" id="delete-ids" name="delete_list"  value="">
+                            </div>
+                        </div>
+                    </form>
+                    <form method="POST" name="order-form" action="" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <h5><u>Add a Consignor</u></h5>
+                        <div class="row">
+                            <div class="col-10"><!--left side -->
+                                <div class="form-group row">
+                                    <label for="{{form.name.id_for_label}}" class="col-sm-6 col-form-label">Name:</label>
+                                    <div class="col-sm-6 has-feedback">
+                                        {{form.name}}
+                                        <div class="help-block error">
+                                            <span for="{{ form.name.html_name }}">{{ form.name.errors.as_text | cut:"* " }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="{{form.contact_number.id_for_label}}" class="col-sm-6 col-form-label">Contact Number
+                                        :</label>
+                                    <div class="col-sm-6 has-feedback">
+                                        {{form.contact_number}}
+                                        <div class="help-block error">
+                                            <span for="{{ form.contact_number.html_name }}"></span>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="col-10">
+                                <div class="form-group row">
+                                    <label for="{{form.gstin.id_for_label}}"
+                                           class="col-sm-6 col-form-label">GST Number:</label>
+                                    <div class="col-sm-6 has-feedback">
+                                        {{form.gstin}}
+                                        <div class="help-block error">
+                                            <span for="{{ form.gstin.html_name }}">{{ form.gstin.errors.as_text | cut:"* " }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label for="{{form.address.id_for_label}}" class="col-sm-6 col-form-label">Address
+                                        :</label>
+                                    <div class="col-sm-6 has-feedback">
+                                        {{form.address}}
+                                        <div class="help-block error">
+                                            <span for="{{ form.address.html_name }}">{{ form.address.errors.as_text | cut:"* " }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div><!--right side -->
+                        </div>
+                        <div class="form-group">
+                            <div class="aab controls col-md-4 "></div>
+                            <div class="controls col-md-2 ">
+<button type="button" class="btn btn-primary" onclick="validateAndShowModal()">
+  Submit
+</button>                                 </div>
+                        </div>
+                     </form>
+                </div>
+
+
+            </div>
+        </div>
+
+
+                    <div class="container"> <div class="row">
+                        <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                             <h5>Available Consignor List:</h5>
+                            <div class="container mt-100">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+
+      <table class="table table-bordered" id="iplTable" >
+        <thead>
+          <tr>
+            <th scope="col" style="display:none;">Id</th>
+            <th scope="col">Name</th>
+            <th scope="col">Contact Number</th>
+            <th scope="col">GST</th>
+            <th scope="col">Address</th>
+
+          </tr>
+        </thead>
+        <tbody>
+            {% for consignor in consignors %}
+          <tr>
+            <td style="display:none;">{{consignor.id}}</td>
+            <td>{{consignor.name}}</td>
+            <td>{{consignor.contact_number}}</td>
+            <td>{{consignor.gstin}}</td>
+            <td>{{consignor.address}}</td>
+          </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+                           <div class="form-group" >
+                              <div class="controls col-md-8 ">
+                                 <button id="delete-button" type="button" class="btn btn-primary">
+                                 Delete
+                                 </button>
+                              </div>
+                           </div>
+                </div>
+            </div>        </div>
+    </div>
+</div>
+                         </div>
+
+                    </div></div>
+     </div>
+</div>
+{% endblock body_content %}
+{% block other_scripts %}
+<script>
+    $('input').addClass("form-control");
+    $("#delete-form-submit").hide();
+    $("#form-submit").show();
+    function toggleSubmitButtons(){
+        if($("#delete-form-submit").is(":visible")){
+            $("#delete-form-submit").hide();
+            $("#form-submit").show();
+        }
+        else{
+            $("#delete-form-submit").show();
+            $("#form-submit").hide();
+        }
+    }
+    $(document).ready(function() {
+      $("#delete-button").hide();
+      $("#iplTable").DataTable();
+      $('.dataTables_length').addClass('bs-select');
+       $('#iplTable tbody').on( 'click', 'tr', function () {
+            $(this).toggleClass('selected');
+            if ($('.selected').length > 0){
+               $("#delete-button").show();
+            }
+            else{
+               $("#delete-button").hide();
+            }
+        });
+        $('#delete-button').click( function () {
+             var delete_list = []
+             $('.selected').each(function(){
+               delete_list.push($(this).children('td:first').html());
+             });
+             $('#delete-ids').val(""+delete_list);
+             toggleSubmitButtons();
+             $('#popupModal').modal('show');
+        });
+    });
+</script>
+{% endblock other_scripts %}
