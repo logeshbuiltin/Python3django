@@ -1,12 +1,12 @@
-{% load static %}
+{%load static%}
 {% load decimal_split %}
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-#download-section {
-    width: 794px;
-    max-height: 1122px;
-    margin: 0;
+body {
+    width: 250mm;
+    max-height: 200mm;
+    margin: 0 auto;
     padding: 0;
     font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
     font-size: 13px;
@@ -14,17 +14,6 @@
     color: #000000;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-	page-break-before:always;
-	clear: all;
-}
-
-@font-face {
-    font-family: 'peignotbold';
-    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
-         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
-    font-weight: normal;
-    font-style: normal;
-
 }
 table td {
     word-break: break-word;
@@ -140,7 +129,6 @@ table, th, td {
 .heading{
     font-size:26px;
     color:red;
-	font-family: peignotbold;
 }
 .sub-heading{
     font-size:12px;
@@ -225,51 +213,31 @@ table, th, td {
                         </table></th>
                     </tr>
                 </thead>
-                <tbody  style="height: 500px;vertical-align: top;">
+                <tbody>
                 {% for order in result_set %}
-                    <tr style="height: 10vh;">
-                        <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.id}}</td>
-                        <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.no_of_packages}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.charged_weight}}</td>
-                        <td style="vertical-align: top;" align="center">
+                    <tr>
+                        <td align="center">{{forloop.counter}}</td>
+                        <td align="center">{{order.id}}</td>
+                        <td>{{order.billing_date|date:"Y-m-d"}}</td>
+                        <td align="center">{{order.no_of_packages}}</td>
+                        <td align="center">{{order.charged_weight}}</td>
+                        <td align="center">
                             <strong class="f-15 text-red">{{order.consignee_place|title}}</strong>
                         </td>
 
-                        <td style="vertical-align: top;" align="center">{{order.amount_per_kg }}</td>
+                        <td align="center">{{order.amount_per_kg }}</td>
                             {%if order.freight_charges%}
                                 {% for value in order.freight_charges|decimal_split %}
-                                    <td style="vertical-align: top;" align="center">{{value}}</td>
+                                    <td align="center">{{value}}</td>
                                 {%endfor%}
                             {%else%}
-                                    <td style="vertical-align: top;" align="center">----</td>
-                                    <td style="vertical-align: top;" align="center">----</td>
+                                    <td align="center">----</td>
+                                    <td align="center">----</td>
 
                             {%endif%}
                     </tr>
                 {% endfor %}
-
                     <tr>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        {%if order.freight_charges%}
-                            {% for value in order.freight_charges|decimal_split %}
-                                <td ></td>
-                            {%endfor%}
-                        {%else%}
-                            <td>----</td>
-                            <td>----</td>
-
-                    {%endif%}
-                    </tr>
-
-                    <tr style="height: 20px;vertical-align: top;">
                         <td colspan="5" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td width="150" class="br-0 text-line">
@@ -323,7 +291,7 @@ table, th, td {
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 $(document).ready(function() {
-<!--     $("html").css("zoom", "1.1");-->
+     //$("html").css("zoom", "1.1");
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -347,7 +315,7 @@ $(document).ready(function() {
       const pdf = html2PDF(page, {
             jsPDF: {
                 format: "a4",
-                orientation: "p"
+                orientation: "l"
             },
             image: {type: 'jpeg', quality: 1},
             output: {{bill.id}}+'_bill.pdf'
@@ -366,7 +334,7 @@ $(document).ready(function() {
                 'pdf_data': btoa(pdf.output())
             }
         }).done(function (result) {
-            window.open('/landingpage', "_self");
+<!--            window.open('/landingpage', "_self");-->
         });
     }
     printPdf().then(pdf=>saveFile(pdf));

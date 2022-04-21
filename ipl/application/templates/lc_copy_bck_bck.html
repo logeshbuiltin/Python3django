@@ -24,6 +24,13 @@ body {
     font-style: normal;
 
 }
+.dynamic-size-tbody{
+    height: 500px;
+    vertical-align: top;
+}
+.dynamic-size-tr{
+    vertical-align: top;
+}
 .table-content td{
 font-size:10px;
 }
@@ -166,9 +173,6 @@ table, th, td {
 .load-challan th {
 	font-size: 11px !important;
 }
-.table-height{
-    height: calc(100vh - 20px);
-}
 </style>
 <script src="/js/jquery.min.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -183,7 +187,7 @@ table, th, td {
         <tr>
             <td align="center" valign="top" class="py-10"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0">
                 <tr>
-                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}"width="100" alt="Image"></td>
+                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}" width="100" alt="Image"></td>
                     <td class="px-0"><table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
                         <tr>
                             <td align="center">
@@ -283,84 +287,81 @@ table, th, td {
         </tr>
         <tr>
             <td valign="top" class="p-0">
-                <div class="table-height">
-                    <table width="100%" style="height: 100%;" border="0" class="bt-0 table-content">
-                        <thead>
-                            <tr class="bb-1 load-challan">
-                                <th align="center" width="4">S.</br>NO</th>
-                                <th width="18">Consignor</br>Name</th>
-                                <th width="18">Consignee</br>Name</th>
-                                <th align="center" width="4">G.C.NO</th>
-                                <th width="10">Date</th>
-                                <th width="14">To</th>
-                                <th width="12">PKGS</th>
-                                <th align="center" width="4">Wt.</th>
-                                <th align="center" width="8">To Pay</th>
-                                <th align="center" width="6">TBB</th>
-                                <th align="center" width="10">Paid</th>
-                            </tr>
-                        </thead>
-                        <tbody style="vertical-align: top;">
-                        {% for result in result_set %}
-                            <tr style="height: 10vh;" >
-                                <td align="center">{{forloop.counter}}</td>
-                                <td align="left">{{result.consignor.name}}</td>
-                                <td align="left">{{result.consignee.name}}</td>
-                                <td align="center">{{result.id}}</td>
-                                <td style="width: 10%" align="left">{{result.billing_date|date:"Y-m-d"}}</td>
-                                <td align="left">
-                                    <strong>{{result.consignee_place}}</strong>
-                                </td>
-                                <td align="center">{{result.no_of_packages}}</td>
-                                <td align="center">{{result.charged_weight}}</td>
-                                <td align="center">{%if result.payment_status == "to_pay"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                                <td align="center">{%if result.payment_status == "tbb"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                                <td align="center">{%if result.payment_status == "paid"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                            </tr>
-                        {% endfor %}
+                <table width="100%" border="0" cellspacing="0" cellpadding="0" class="bt-0 table-content">
+                <thead>
+                    <tr class="bb-1 load-challan">
+                        <th align="center" width="4">S.</br>NO</th>
+                        <th width="18">Consignor</br>Name</th>
+                        <th width="18">Consignee</br>Name</th>
+                        <th align="center" width="4">G.C.NO</th>
+                        <th width="10">Date</th>
+                        <th width="14">To</th>
+                        <th width="12">PKGS</th>
+                        <th align="center" width="4">Wt.</th>
+                        <th align="center" width="8">To Pay</th>
+                        <th align="center" width="6">TBB</th>
+                        <th align="center" width="10">Paid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td align="center">1</td>
+                        <td align="left">SS Foundry</td>
+                        <td align="left">Flipper Pumps PLtd</td>
+                        <td align="center">99</td>
+                        <td align="left" style="font-size: 8px;">2022-01-15</td>
+                        <td align="left" style="font-size: 8px;">
+                            <strong>Secunderabad</strong>
+                        </td>
+                        <td align="center">1</td>
+                        <td align="center">12.0</td>
+                        <td align="right">---</td>
+                        <td align="right">156.0</td>
+                        <td align="right">2500000.0</td>
+                    </tr>
+
+                    <tr align="center" style="height: 550px; vertical-align: top;">
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                        <td align="center" style="height: 550px; vertical-align: top;"></td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="6" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="center"></td>
-                                <td align="left"></td>
-                                <td align="left"></td>
-                                <td align="center"></td>
-                                <td align="left"></td>
-                                <td align="left"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>
-                            <tr style="height: 50px; vertical-align: top;">
-                                <td colspan="6" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td align="right">
-                                            <strong>Total</strong>
-                                        </td>
-                                    </tr>
-                                </table></td>
-    
-                                <td colspan="1" class="bt-1 p-0" align="center">
-                                    <strong>{{pkgs_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1 p-0" align="center">
-                                    <strong>{{weight_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{topay_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{tbb_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{paid_total}}</strong>
+                                <td align="right">
+                                    <strong>Total</strong>
                                 </td>
                             </tr>
-    
-                        </tbody>
-                    </table>
-                </div>
-            </td>
+                        </table></td>
+
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{pkgs_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{weight_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{topay_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{tbb_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{paid_total}}</strong>
+                        </td>
+                    </tr>
+					
+                </tbody>
+            </table></td>
         </tr>
         <tr>
             <td valign="top" class="p-0">
@@ -440,11 +441,11 @@ $(document).ready(function() {
             url: '/downloads?download_type=lc',
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'id': {{lc.lc_no}},
+                'id': 50,
                 'pdf_data': btoa(pdf.output())
             }
         }).done(function (result) {
-            window.open('/landingpage', "_self");
+<!--            window.open('/landingpage', "_self");-->
         });
     }
     printPdf().then(pdf=>saveFile(pdf));

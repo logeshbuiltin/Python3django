@@ -1,11 +1,12 @@
-{% load static%}
+{%load static%}
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-body {
-    width: 794px;
-    max-height: 1122px;
-    margin: 0;
+
+.download-section {
+    width: 297mm;
+    height: 210mm;
+    margin: 0 auto;
     padding: 0;
     font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
     font-size: 13px;
@@ -13,17 +14,11 @@ body {
     color: #000000;
     -webkit-text-size-adjust: 100%;
     -ms-text-size-adjust: 100%;
-	page-break-before:always;
-	clear: all;
 }
-@font-face {
-    font-family: 'peignotbold';
-    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
-         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
-    font-weight: normal;
-    font-style: normal;
+<!--.main-body {-->
+<!--height: 150mm;-->
+<!--}-->
 
-}
 .table-content td{
 font-size:10px;
 }
@@ -153,7 +148,6 @@ table, th, td {
 .heading{
     font-size:26px;
     color:red;
-	font-family: peignotbold;
 }
 .sub-heading{
     font-size:12px;
@@ -165,9 +159,6 @@ table, th, td {
 }
 .load-challan th {
 	font-size: 11px !important;
-}
-.table-height{
-    height: calc(100vh - 20px);
 }
 </style>
 <script src="/js/jquery.min.js"></script>
@@ -183,7 +174,7 @@ table, th, td {
         <tr>
             <td align="center" valign="top" class="py-10"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0">
                 <tr>
-                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}"width="100" alt="Image"></td>
+                    <td valign="top" width="100" class="px-15"><img src="{% static 'images/logo.jpg' %}" width="100" alt="Image"></td>
                     <td class="px-0"><table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
                         <tr>
                             <td align="center">
@@ -282,85 +273,68 @@ table, th, td {
             </table></td>
         </tr>
         <tr>
-            <td valign="top" class="p-0">
-                <div class="table-height">
-                    <table width="100%" style="height: 100%;" border="0" class="bt-0 table-content">
-                        <thead>
-                            <tr class="bb-1 load-challan">
-                                <th align="center" width="4">S.</br>NO</th>
-                                <th width="18">Consignor</br>Name</th>
-                                <th width="18">Consignee</br>Name</th>
-                                <th align="center" width="4">G.C.NO</th>
-                                <th width="10">Date</th>
-                                <th width="14">To</th>
-                                <th width="12">PKGS</th>
-                                <th align="center" width="4">Wt.</th>
-                                <th align="center" width="8">To Pay</th>
-                                <th align="center" width="6">TBB</th>
-                                <th align="center" width="10">Paid</th>
-                            </tr>
-                        </thead>
-                        <tbody style="vertical-align: top;">
-                        {% for result in result_set %}
-                            <tr style="height: 10vh;" >
-                                <td align="center">{{forloop.counter}}</td>
-                                <td align="left">{{result.consignor.name}}</td>
-                                <td align="left">{{result.consignee.name}}</td>
-                                <td align="center">{{result.id}}</td>
-                                <td style="width: 10%" align="left">{{result.billing_date|date:"Y-m-d"}}</td>
-                                <td align="left">
-                                    <strong>{{result.consignee_place}}</strong>
-                                </td>
-                                <td align="center">{{result.no_of_packages}}</td>
-                                <td align="center">{{result.charged_weight}}</td>
-                                <td align="center">{%if result.payment_status == "to_pay"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                                <td align="center">{%if result.payment_status == "tbb"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                                <td align="center">{%if result.payment_status == "paid"%}{{result.total_charges}}{%else%}---{%endif%}</td>
-                            </tr>
-                        {% endfor %}
+            <td valign="top" class="p-0"><table class="main-body" width="100%" border="0" cellspacing="0" cellpadding="0" class="bt-0 table-content">
+                <thead>
+                    <tr class="bb-1 load-challan">
+                        <th align="center" width="4">S.</br>NO</th>
+                        <th width="18">Consignor</br>Name</th>
+                        <th width="18">Consignee</br>Name</th>
+                        <th align="center" width="4">G.C.NO</th>
+                        <th width="10">Date</th>
+                        <th width="10">To</th>
+                        <th width="15">PKGS</th>
+                        <th align="center" width="4">Wt.</th>
+                        <th align="center" width="8">To Pay</th>
+                        <th align="center" width="6">TBB</th>
+                        <th align="center" width="10">Paid</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for result in result_set %}
+                    <tr>
+                        <td align="center">{{forloop.counter}}</td>
+                        <td align="left">{{result.consignor.name}}</td>
+                        <td align="left">{{result.consignee.name}}</td>
+                        <td align="center">{{result.id}}</td>
+                        <td align="left">{{result.billing_date|date:"Y-m-d"}}</td>
+                        <td align="left">
+                            <strong>{{result.consignee_place}}</strong>
+                        </td>
+                        <td align="center">{{result.no_of_packages}}</td>
+                        <td align="center">{{result.charged_weight}}</td>
+                        <td align="center">{%if result.payment_status == "to_pay"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                        <td align="center">{%if result.payment_status == "tbb"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                        <td align="center">{%if result.payment_status == "paid"%}{{result.total_charges}}{%else%}---{%endif%}</td>
+                    </tr>
+                {% endfor %}
+                    <tr>
+                        <td colspan="6" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
-                                <td align="center"></td>
-                                <td align="left"></td>
-                                <td align="left"></td>
-                                <td align="center"></td>
-                                <td align="left"></td>
-                                <td align="left"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                                <td align="center"></td>
-                            </tr>
-                            <tr style="height: 50px; vertical-align: top;">
-                                <td colspan="6" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                                    <tr>
-                                        <td align="right">
-                                            <strong>Total</strong>
-                                        </td>
-                                    </tr>
-                                </table></td>
-    
-                                <td colspan="1" class="bt-1 p-0" align="center">
-                                    <strong>{{pkgs_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1 p-0" align="center">
-                                    <strong>{{weight_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{topay_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{tbb_total}}</strong>
-                                </td>
-                                <td colspan="1" class="bt-1" align="right">
-                                    <strong>{{paid_total}}</strong>
+                                <td align="right">
+                                    <strong>Total</strong>
                                 </td>
                             </tr>
-    
-                        </tbody>
-                    </table>
-                </div>
-            </td>
+                        </table></td>
+
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{pkgs_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1 p-0" align="center">
+                            <strong>{{weight_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{topay_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{tbb_total}}</strong>
+                        </td>
+                        <td colspan="1" class="bt-1" align="right">
+                            <strong>{{paid_total}}</strong>
+                        </td>
+                    </tr>
+					
+                </tbody>
+            </table></td>
         </tr>
         <tr>
             <td valign="top" class="p-0">
@@ -400,7 +374,7 @@ table, th, td {
 
 <script>
 $(document).ready(function() {
-     $("html").css("zoom", "1.1");
+<!--     $("html").css("zoom", "1.1");-->
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -428,7 +402,7 @@ $(document).ready(function() {
                 orientation: "p"
             },
             image: {type: 'jpeg', quality: 1},
-            output: {{lc.lc_no}}+'_lc.pdf'
+            output: 'lc.pdf'
           });
       return pdf;
     }
@@ -440,11 +414,11 @@ $(document).ready(function() {
             url: '/downloads?download_type=lc',
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'id': {{lc.lc_no}},
+                'id': 100,
                 'pdf_data': btoa(pdf.output())
             }
         }).done(function (result) {
-            window.open('/landingpage', "_self");
+<!--            window.open('/landingpage', "_self");-->
         });
     }
     printPdf().then(pdf=>saveFile(pdf));

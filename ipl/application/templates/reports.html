@@ -53,7 +53,7 @@
       {% for result in result_set %}
       <div  class="row matched-orders" style="margin-left:200px;margin-right:auto;">
          <div class="table-wrapper-scroll-y my-custom-scrollbar">
-            <br><br><br><br><br><br>
+            <br>
 
             {% if payment_status == "to_pay" %}
             <h5 style="text-align:center">Orders with the status <b>TO PAY</b>:</h5>
@@ -200,7 +200,7 @@ $(document).ready(function() {
          const pdf = html2PDF(page, {
             jsPDF: {
                format: "a4",
-               orientation: "l",
+               orientation: "p",
             },
             image: {
                type: 'jpeg',

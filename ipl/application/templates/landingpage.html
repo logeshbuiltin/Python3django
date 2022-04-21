@@ -426,10 +426,10 @@ td { font-size: 11px;}
                                     <td>{{order.paid_amount}}</td>
                                     {% endif %}
                                     <td>{% if order.payment_status == "tbb" %}{{order.total_charges|do_subtract:order.paid_amount}}{% endif %}</td>
-                                    <td><a href="documents/orders/{{order.id}}.pdf" target="_blank">Click Here</a></td>
+                                    <td><a href="./documents/orders/{{order.id}}.pdf" target="_blank">Click Here</a></td>
 
-                                    <td>{% if order.loading_challan != None %}<a href="documents/lc/{{order.loading_challan.lc_no}}_lc.pdf" target="_blank">Click Here</a>{%endif%}</td>
-                                    <td>{% if order.bill != None %}<a href="documents/bill/{{order.bill.id}}_bill.pdf" target="_blank">Click Here</a>{%endif%}</td>
+                                    <td>{% if order.loading_challan != None %}<a href="./documents/lc/{{order.loading_challan.lc_no}}_lc.pdf" target="_blank">Click Here</a>{%endif%}</td>
+                                    <td>{% if order.bill != None %}<a href="./documents/bill/{{order.bill.id}}_bill.pdf" target="_blank">Click Here</a>{%endif%}</td>
                                  </tr>
                                  {% endfor %}
                               </tbody>

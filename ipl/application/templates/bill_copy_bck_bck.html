@@ -1,9 +1,8 @@
 {% load static %}
-{% load decimal_split %}
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-#download-section {
+body {
     width: 794px;
     max-height: 1122px;
     margin: 0;
@@ -225,51 +224,90 @@ table, th, td {
                         </table></th>
                     </tr>
                 </thead>
-                <tbody  style="height: 500px;vertical-align: top;">
-                {% for order in result_set %}
-                    <tr style="height: 10vh;">
-                        <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.id}}</td>
-                        <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.no_of_packages}}</td>
-                        <td style="vertical-align: top;" align="center">{{order.charged_weight}}</td>
-                        <td style="vertical-align: top;" align="center">
-                            <strong class="f-15 text-red">{{order.consignee_place|title}}</strong>
+                <tbody >
+                
+                    <tr>
+                        <td align="center">1</td>
+                        <td align="center">83</td>
+                        <td>2022-01-29</td>
+                        <td align="center">1</td>
+                        <td align="center">3.0</td>
+                        <td align="center">
+                            <strong class="f-15 text-red">Secunderabad</strong>
                         </td>
 
-                        <td style="vertical-align: top;" align="center">{{order.amount_per_kg }}</td>
-                            {%if order.freight_charges%}
-                                {% for value in order.freight_charges|decimal_split %}
-                                    <td style="vertical-align: top;" align="center">{{value}}</td>
-                                {%endfor%}
-                            {%else%}
-                                    <td style="vertical-align: top;" align="center">----</td>
-                                    <td style="vertical-align: top;" align="center">----</td>
-
-                            {%endif%}
+                        <td align="center">12.25</td>
+                            
+                                
+                                    <td align="center">36</td>
+                                
+                                    <td align="center">75</td>
+                                
+                            
                     </tr>
-                {% endfor %}
-
+                
                     <tr>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        <td ></td>
-                        {%if order.freight_charges%}
-                            {% for value in order.freight_charges|decimal_split %}
-                                <td ></td>
-                            {%endfor%}
-                        {%else%}
-                            <td>----</td>
-                            <td>----</td>
+                        <td align="center">2</td>
+                        <td align="center">84</td>
+                        <td>2022-02-20</td>
+                        <td align="center">1</td>
+                        <td align="center">3.0</td>
+                        <td align="center">
+                            <strong class="f-15 text-red">Secunderabad</strong>
+                        </td>
 
-                    {%endif%}
+                        <td align="center">12.25</td>
+                            
+                                
+                                    <td align="center">36</td>
+                                
+                                    <td align="center">75</td>
+                                
+                            
                     </tr>
+                
+                    <tr>
+                        <td align="center">3</td>
+                        <td align="center">85</td>
+                        <td>2022-02-20</td>
+                        <td align="center">1</td>
+                        <td align="center">3.0</td>
+                        <td align="center">
+                            <strong class="f-15 text-red">Secunderabad</strong>
+                        </td>
 
-                    <tr style="height: 20px;vertical-align: top;">
+                        <td align="center">12.25</td>
+                            
+                                
+                                    <td align="center">36</td>
+                                
+                                    <td align="center">75</td>
+                                
+                            
+                    </tr>
+                
+                    <tr>
+                        <td align="center" style="height: 510px;vertical-align: top;">4</td>
+                        <td align="center" style="height: 510px;vertical-align: top;">89</td>
+                        <td style="height: 510px;vertical-align: top;">2022-01-02</td>
+                        <td align="center" style="height: 510px;vertical-align: top;">1</td>
+                        <td align="center" style="height: 510px;vertical-align: top;">3.0</td>
+                        <td align="center" style="height: 510px;vertical-align: top;">
+                            <strong class="f-15 text-red">Nagpur</strong>
+                        </td>
+
+                        <td align="center" style="height: 510px;vertical-align: top;">12.25</td>
+                            
+                                
+                                    <td align="center" style="height: 510px;vertical-align: top;">36</td>
+                                
+                                    <td align="center" style="height: 510px;vertical-align: top;">75</td>
+                                
+                            
+                    </tr>
+                
+                
+                    <tr>
                         <td colspan="5" class="bt-1 p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                             <tr>
                                 <td width="150" class="br-0 text-line">
@@ -323,7 +361,7 @@ table, th, td {
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
 $(document).ready(function() {
-<!--     $("html").css("zoom", "1.1");-->
+     //$("html").css("zoom", "1.1");
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {
@@ -350,7 +388,7 @@ $(document).ready(function() {
                 orientation: "p"
             },
             image: {type: 'jpeg', quality: 1},
-            output: {{bill.id}}+'_bill.pdf'
+            output: 'abcd.pdf'
           });
       return pdf;
     }
@@ -362,11 +400,11 @@ $(document).ready(function() {
             url: '/downloads?download_type=bill',
             headers: {'X-CSRFToken': csrftoken},
             data: {
-                'id': {{bill.id}},
+                'id': 33,
                 'pdf_data': btoa(pdf.output())
             }
         }).done(function (result) {
-            window.open('/landingpage', "_self");
+<!--            window.open('/landingpage', "_self");-->
         });
     }
     printPdf().then(pdf=>saveFile(pdf));
