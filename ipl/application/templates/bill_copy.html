@@ -225,9 +225,9 @@ table, th, td {
                         </table></th>
                     </tr>
                 </thead>
-                <tbody  style="height: 500px;vertical-align: top;">
+                <tbody  style="height: 550px;vertical-align: top;">
                 {% for order in result_set %}
-                    <tr style="height: 10vh;">
+                    <tr style="height: 10px;">
                         <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
                         <td style="vertical-align: top;" align="center">{{order.id}}</td>
                         <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
@@ -309,6 +309,7 @@ table, th, td {
                         </table>
                     </td>
                     <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                        <span>Indore Professional Logistics <span style="color:blue">Royal</span></span>
                         <tr>
                             <td valign="bottom" align="center" height="90">
                                 Authorised Signatory
