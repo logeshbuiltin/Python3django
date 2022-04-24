@@ -300,9 +300,9 @@ table, th, td {
                                 <th align="center" width="10">Paid</th>
                             </tr>
                         </thead>
-                        <tbody style="vertical-align: top;">
+                        <tbody  style="height: 550px;vertical-align: top;">
                         {% for result in result_set %}
-                            <tr style="height: 10vh;" >
+                            <tr style="height: 50px;" >
                                 <td align="center">{{forloop.counter}}</td>
                                 <td align="left">{{result.consignor.name}}</td>
                                 <td align="left">{{result.consignee.name}}</td>
