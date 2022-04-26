@@ -225,9 +225,9 @@ table, th, td {
                         </table></th>
                     </tr>
                 </thead>
-                <tbody  style="height: 550px;vertical-align: top;">
+                <tbody  style="height: 700px;vertical-align: top;">
                 {% for order in result_set %}
-                    <tr style="height: 10px;">
+                    <tr style="height: 50px;">
                         <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
                         <td style="vertical-align: top;" align="center">{{order.id}}</td>
                         <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
@@ -260,11 +260,11 @@ table, th, td {
                         <td ></td>
                         {%if order.freight_charges%}
                             {% for value in order.freight_charges|decimal_split %}
-                                <td ></td>
+                                <td></td>
                             {%endfor%}
                         {%else%}
-                            <td>----</td>
-                            <td>----</td>
+                            <td></td>
+                            <td></td>
 
                     {%endif%}
                     </tr>
