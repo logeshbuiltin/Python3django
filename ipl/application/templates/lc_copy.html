@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-body {
+#download-section {
     width: 794px;
     max-height: 1122px;
     margin: 0;
@@ -166,9 +166,9 @@ table, th, td {
 .load-challan th {
 	font-size: 11px !important;
 }
-.table-height{
+/* .table-height{
     height: calc(100vh - 20px);
-}
+} */
 </style>
 <script src="/js/jquery.min.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -178,8 +178,7 @@ table, th, td {
 <html>
 <body>
 <div id="download-section">
-    <div>
-    <table id="table-download-section" border="0" cellspacing="0" cellpadding="0" class="table-bordered table-pad" style="width:100%;">
+    <table border="0" cellspacing="0" cellpadding="0" class="table-bordered table-pad" style="width:100%;">
         <tr>
             <td align="center" valign="top" class="py-10"><table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0">
                 <tr>
@@ -300,7 +299,7 @@ table, th, td {
                                 <th align="center" width="10">Paid</th>
                             </tr>
                         </thead>
-                        <tbody  style="height: 550px;vertical-align: top;">
+                        <tbody  style="height: 600px;vertical-align: top;">
                         {% for result in result_set %}
                             <tr style="height: 50px;" >
                                 <td align="center">{{forloop.counter}}</td>
@@ -394,7 +393,6 @@ table, th, td {
             <td valign="bottom" align="center" height="25">Note: The driver, owners & Lorry Supplier responsible for all consignments.</td>
         </tr>
     </table>
-    </div>
 </div>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 
