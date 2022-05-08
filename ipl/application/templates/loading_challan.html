@@ -291,7 +291,7 @@ $('input[type=date]').attr("required");
 $('select[name=driver]').attr("required");
 
 $(document).ready(function() {
-    $("#ordersTable").DataTable();
+    $("#ordersTable").DataTable({"pageLength": 25});
     $('.dataTables_length').addClass('bs-select');
     $("#generate-challan").hide();
    $('#ordersTable tbody').on( 'click', 'tr', function () {
