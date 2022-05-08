@@ -103,6 +103,22 @@
                                        {% endif %}
                                     </tr>
                                     {% endfor %}
+                                    <tr style="height: 20px;vertical-align: top;">
+                                       <td colspan="4" class="bt-1 p-0">
+                                       </td>
+                                       <td align="right" colspan="2" class="bt-1">
+                                           <strong>Total Rs: </strong>
+                                       </td>  
+                                       <td align="right" colspan="1" class="bt-1">
+                                          <strong>{{total_amount}} </strong>
+                                       </td>  
+                                       <td align="right" colspan="1" class="bt-1">
+                                          <strong>{{total_paid}} </strong>
+                                       </td>  
+                                       <td align="right" colspan="1" class="bt-1">
+                                          <strong>{{total_charges}}  </strong>
+                                       </td>  
+                                   </tr>
                                  </tbody>
                               </table>
                            {% if forloop.counter == result_set|length %}
