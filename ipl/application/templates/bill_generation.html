@@ -138,7 +138,7 @@ $('select[name=driver]').addClass("form-control");
 $('input[type=date]').attr("required");
 $('select[name=driver]').attr("required");
    $(document).ready(function() {
-     $("#ordersTable").DataTable();
+     $("#ordersTable").DataTable({"pageLength": 25});
      $('.dataTables_length').addClass('bs-select');
     $("#generate-bill").hide();
    $('#ordersTable tbody').on( 'click', 'tr', function () {
