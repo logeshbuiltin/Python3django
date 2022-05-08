@@ -501,6 +501,7 @@ td { font-size: 11px;}
 
    $(document).ready(function() {
      $("#ordersTable").DataTable( {
+        "pageLength": 25,
         "order": [[ 0, "desc" ]]
      });
      $('.dataTables_length').addClass('bs-select');
