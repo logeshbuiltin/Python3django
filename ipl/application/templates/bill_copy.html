@@ -227,7 +227,7 @@ table, th, td {
                 </thead>
                 <tbody  style="height: 700px;vertical-align: top;">
                 {% for order in result_set %}
-                    <tr style="height: 50px;">
+                    <tr style="height: 20px;">
                         <td style="vertical-align: top;" align="center">{{forloop.counter}}</td>
                         <td style="vertical-align: top;" align="center">{{order.id}}</td>
                         <td style="vertical-align: top;" >{{order.billing_date|date:"Y-m-d"}}</td>
