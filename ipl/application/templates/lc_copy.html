@@ -2,13 +2,13 @@
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-#download-section {
+body {
     width: 794px;
     max-height: 1122px;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
-    font-size: 13px;
+    font-family: Calibri;
+    font-size: 14px;
     line-height: 17px;
     color: #000000;
     -webkit-text-size-adjust: 100%;
@@ -18,15 +18,15 @@
 }
 @font-face {
     font-family: 'peignotbold';
-    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
-         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
+    src: url('peignot_bold-webfont.woff2') format('woff2'),
+         url('peignot_bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
 }
-.table-content td{
+/*.table-content td{
 font-size:10px;
-}
+}*/
 table td {
     word-break: break-word;
 }
@@ -151,8 +151,8 @@ table, th, td {
     border-radius: 8px;
 }
 .heading{
-    font-size:26px;
-    color:red;
+    font-size:32px;
+    color:#e10000;
 	font-family: peignotbold;
 }
 .sub-heading{
@@ -163,12 +163,16 @@ table, th, td {
  vertical-align: super;
  color:red;
 }
-.load-challan th {
+/*.load-challan th {
 	font-size: 11px !important;
+}*/
+.wrap-txt {
+    width: 80px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    float: left;
 }
-/* .table-height{
-    height: calc(100vh - 20px);
-} */
 </style>
 <script src="/js/jquery.min.js"></script>
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -186,7 +190,7 @@ table, th, td {
                     <td class="px-0"><table border="0" cellspacing="0" cellpadding="0" style="width:100%;">
                         <tr>
                             <td align="center">
-                                <div class="heading">Indore Professional Logistics <span style="color:blue">Royal</span></div><br>
+                                <div class="heading">Indore Professional Logistics <span style="color:#1296d3">Royal</span></div><br>
                                 <div class="sub-heading" style="text-transform: uppercase;">
                                     No.:313/1, 3rd Shriram Nagar, FCI Main Road, Gandhimaanagar,<br> Peelamedu, Coimbatore - 641004.<br>
                                         <strong>PHONE</strong>: 9443353836, 99949807771,773,774, 7339000885.<br>
@@ -208,8 +212,8 @@ table, th, td {
                         <tr>
                             <td>
                                 <strong>
-                                    <span class="text-red">NO:</span> {{lc.lc_no}}<br>
-                                    <span class="text-red">DATE:</span> {{lc.created_dtm|date:"Y-m-d"}}<br><br><br>
+                                    <span class="text-red">NO:</span> {{lc.lc_no}}<br><br>
+                                    <span class="text-red">DATE:</span> {{lc.created_dtm|date:"Y-m-d"}}<br>
                                 </strong>
                             </td>
                         </tr>
@@ -261,18 +265,18 @@ table, th, td {
                         </table>
                         <table width="100%" border="0" cellspacing="0" cellpadding="0" class="t-b-0 b-1 mt-5">
                             <tr>
-                                <td style="font-size: 12px; width: 18%;">
-                                    <strong><span class="text-red">Weight: </br></span>{{lc.weight}}</strong>
+                                <td style="width: 18%;">
+                                    <strong><span class="text-red">Weight: </span>{{lc.weight}}</strong>
                                 </td>
-                                <td width="20" style="font-size: 12px; width: 22%;">
-                                    <strong><span class="text-red">Vehicle Hire: </br></span>{{lc.vehicle_hire}}</strong>
+                                <td width="20" style="width: 22%;">
+                                    <strong><span class="text-red">Vehicle Hire: </span>{{lc.vehicle_hire}}</strong>
                                 </td>
-                                <td width="30" style="font-size: 12px; width: 30%;">
-                                    <strong><span class="text-red">Advance:</br></span>
+                                <td width="30" style="width: 30%;">
+                                    <strong><span class="text-red">Advance:</span>
                                     Rs. {{lc.advance_amount}}/-</strong>
                                 </td>
-                                <td width="30" style="font-size: 12px; width: 30%;">
-                                    <strong><span class="text-red">Balance: </br></span>Rs. {{lc.balance_amount}}/-</strong>
+                                <td width="30" style="width: 30%;">
+                                    <strong><span class="text-red">Balance: </span>Rs. {{lc.balance_amount}}/-</strong>
                                 </td>
                             </tr>
                         </table>
@@ -286,28 +290,28 @@ table, th, td {
                     <table width="100%" style="height: 100%;" border="0" class="bt-0 table-content">
                         <thead>
                             <tr class="bb-1 load-challan">
-                                <th align="center" width="4">S.</br>NO</th>
-                                <th width="18">Consignor</br>Name</th>
-                                <th width="18">Consignee</br>Name</th>
-                                <th align="center" width="4">G.C.NO</th>
-                                <th width="10">Date</th>
-                                <th width="14">To</th>
-                                <th width="12">PKGS</th>
-                                <th align="center" width="4">Wt.</th>
-                                <th align="center" width="8">To Pay</th>
-                                <th align="center" width="6">TBB</th>
-                                <th align="center" width="10">Paid</th>
+										<th align="" width="4" style="padding: 0px;">S.No</th>
+								<th width="">Consignor</br>Name</th>
+								<th width="">Consignee</br>Name</th>
+								<th>G.C.NO</th>
+								<th>Date</th>
+								<th>To</th>
+								<th>PKGS</th>
+								<th>Wt.</th>
+								<th>To Pay</th>
+								<th>TBB</th>
+								<th>Paid</th>
                             </tr>
                         </thead>
                         <tbody  style="height: 600px;vertical-align: top;">
                         {% for result in result_set %}
                             <tr style="height: 50px;" >
                                 <td align="center">{{forloop.counter}}</td>
-                                <td align="left">{{result.consignor.name}}</td>
-                                <td align="left">{{result.consignee.name}}</td>
+                                <td align="left"><span class="wrap-txt">{{result.consignor.name}}</span></td>
+                                <td align="left"><span class="wrap-txt">{{result.consignee.name}}</span></td>
                                 <td align="center">{{result.id}}</td>
-                                <td style="width: 10%" align="left">{{result.billing_date|date:"Y-m-d"}}</td>
-                                <td align="left">
+                                <td style="font-size: 12px;" align="left">{{result.billing_date|date:"Y-m-d"}}</td>
+                                <td align="left" style="font-size: 12px;">
                                     <strong>{{result.consignee_place}}</strong>
                                 </td>
                                 <td align="center">{{result.no_of_packages}}</td>
