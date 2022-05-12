@@ -3,13 +3,13 @@
 <!DOCTYPE html>
 <head>
 <style type="text/css">
-#download-section {
+body {
     width: 794px;
     max-height: 1122px;
-    margin: 0;
+    margin: 0 auto;
     padding: 0;
-    font-family: Arial, 'Arial Narrow', Helvetica, sans-serif;
-    font-size: 13px;
+    font-family: Calibri;
+    font-size: 15px;
     line-height: 17px;
     color: #000000;
     -webkit-text-size-adjust: 100%;
@@ -20,8 +20,8 @@
 
 @font-face {
     font-family: 'peignotbold';
-    src: url({% static 'fonts/peignot_bold-webfont.woff2' %}) format('woff2'),
-         url({% static 'fonts/peignot_bold-webfont.woff' %}) format('woff');
+    src: url('peignot_bold-webfont.woff2') format('woff2'),
+         url('peignot_bold-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 
@@ -120,7 +120,8 @@ table, th, td {
     text-align: left;
 }
 .text-red {
-    color: #cf2b20;
+    color: #a30010;
+    text-transform: uppercase;
 }
 .text-right {
     text-align: right;
@@ -137,10 +138,10 @@ table, th, td {
     border: 1px solid #333266;
     border-radius: 8px;
 }
-.heading{
-    font-size:26px;
-    color:red;
-	font-family: peignotbold;
+.heading {
+    font-size: 32px;
+    color: #e10000;
+    font-family: peignotbold;
 }
 .sub-heading{
     font-size:12px;
@@ -192,7 +193,7 @@ table, th, td {
                         <tr>
                             <td class="bt-1">
                                 <strong>
-                                    NO: {{bill.id}}<br>
+                                    NO: {{bill.id}}<br><br>
                                     DATE: {{bill.created_dtm|date:"Y-m-d"}}
                                 </strong>
                             </td>
@@ -309,7 +310,7 @@ table, th, td {
                         </table>
                     </td>
                     <td valign="top" class="p-0"><table width="100%" border="0" cellspacing="0" cellpadding="0">
-                        <span>Indore Professional Logistics <span style="color:blue">Royal</span></span>
+                        For<span style="color:#00a7f7;font-size:14px; font-family: peignotbold;"> Indore&nbspProfessional&nbspLogistics&nbspRoyal</span><br><br>
                         <tr>
                             <td valign="bottom" align="center" height="90">
                                 Authorised Signatory
