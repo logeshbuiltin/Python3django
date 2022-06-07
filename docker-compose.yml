@@ -5,13 +5,13 @@ services:
     build:
       context: .
     ports:
-      - "9000:9000"
+      - "8000:8000"
     volumes:
       - .:/ipl
     depends_on:
       - db
     command: >
-      sh -c "sleep 15 && python ipl/manage.py migrate && python ipl/manage.py runserver 0.0.0.0:9000"
+      sh -c "sleep 15 && python ipl/manage.py migrate && python ipl/manage.py runserver 0.0.0.0:8000"
   db:
     image: mysql:8
     command: --default-authentication-plugin=mysql_native_password
