@@ -91,7 +91,7 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'Ipl0g!st!cs',
         'HOST': 'db',
-        'PORT': 3306
+        'PORT': 3307
     }
 }
 
